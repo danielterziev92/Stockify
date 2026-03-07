@@ -2,10 +2,9 @@ package com.stockify.catalog.service.impl;
 
 import com.stockify.catalog.constants.CategoryConstants;
 import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.mapper.CategoryMapper;
+import com.stockify.catalog.mapper.BaseCategoryMapper;
 import com.stockify.catalog.model.Category;
 import com.stockify.catalog.repository.CategoryRepository;
-import com.stockify.catalog.response.CategoryResponse;
 import com.stockify.catalog.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,35 +12,33 @@ import org.jetbrains.annotations.Contract;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-@Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extends CategoryRepository<T>, MAPPER extends BaseCategoryMapper<T, R>>
+        implements CategoryService<R> {
 
-    private final CategoryRepository repository;
-    private final CategoryMapper mapper;
+    protected final REPO repository;
+    protected final MAPPER mapper;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CategoryResponse> getAll(Pageable pageable) {
+    public Page<R> getAll(@NonNull Pageable pageable) {
         return this.repository.findAll(pageable)
                 .map(this.mapper::toResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Page<CategoryResponse> getAllByActive(boolean active, Pageable pageable) {
+    public Page<R> getAllByActive(boolean active, @NonNull Pageable pageable) {
         return this.repository.findAllByActive(active, pageable)
                 .map(this.mapper::toResponse);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CategoryResponse getById(Long id) {
+    public R getById(@NonNull Long id) {
         return this.repository.findById(id)
                 .map(this.mapper::toResponse)
                 .orElseThrow(() -> this.categoryNotFound(id));
@@ -49,8 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResponse create(CategoryDTO categoryDTO) {
-        Category category = this.mapper.toEntity(categoryDTO);
+    public R create(@NonNull CategoryDTO categoryDTO) {
+        T category = this.mapper.toEntity(categoryDTO);
 
         category.setActive(categoryDTO.active() != null ? categoryDTO.active() : true);
         category.setDisplayOrder(categoryDTO.displayOrder() != null ? categoryDTO.displayOrder() : 0);
@@ -62,8 +59,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResponse update(@NonNull Long id, @NonNull CategoryDTO categoryDTO) {
-        Category category = this.repository.findById(id)
+    public R update(@NonNull Long id, @NonNull CategoryDTO categoryDTO) {
+        T category = this.repository.findById(id)
                 .orElseThrow(() -> this.categoryNotFound(id));
 
         boolean nameChanged = !category.getName().equals(categoryDTO.name());
@@ -86,8 +83,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResponse move(@NonNull Long id, Long newParentId) {
-        Category category = this.repository.findById(id)
+    public R move(@NonNull Long id, Long newParentId) {
+        T category = this.repository.findById(id)
                 .orElseThrow(() -> this.categoryNotFound(id));
 
         Category newParent = null;
@@ -119,14 +116,14 @@ public class CategoryServiceImpl implements CategoryService {
         return new EntityNotFoundException(CategoryConstants.CATEGORY_NOT_FOUND_BY_ID_MESSAGE.formatted(id));
     }
 
-    private void checkAndSetParent(@NonNull Category category, @NonNull Long parentId) {
+    private void checkAndSetParent(@NonNull T category, @NonNull Long parentId) {
         if (!this.repository.existsById(parentId))
             throw this.categoryNotFound(parentId);
 
         category.setParent(this.repository.getReferenceById(parentId));
     }
 
-    private @NonNull CategoryResponse saveAndResponse(@NonNull Category category) {
+    private @NonNull R saveAndResponse(@NonNull T category) {
         return this.mapper.toResponse(this.repository.save(category));
     }
 }

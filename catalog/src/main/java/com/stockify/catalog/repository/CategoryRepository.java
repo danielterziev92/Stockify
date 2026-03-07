@@ -7,20 +7,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
 public interface CategoryRepository<T extends Category> extends JpaRepository<T, Long> {
-    Page<Category> findAllByActive(boolean active, Pageable pageable);
+    Page<T> findAllByActive(boolean active, Pageable pageable);
 
-    List<Category> findAllByNameContainingIgnoreCaseAndActive(String name, boolean active);
+    List<T> findAllByNameContainingIgnoreCaseAndActive(String name, boolean active);
 
-    List<Category> findAllByParentIdAndActive(Long parentId, boolean active);
+    List<T> findAllByParentIdAndActive(Long parentId, boolean active);
 
-    Optional<Category> findByName(String name);
+    Optional<T> findByName(String name);
 
     boolean existsByName(String name);
 

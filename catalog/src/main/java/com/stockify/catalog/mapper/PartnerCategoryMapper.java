@@ -2,14 +2,14 @@ package com.stockify.catalog.mapper;
 
 import com.stockify.catalog.dto.CategoryDTO;
 import com.stockify.catalog.model.PartnerCategory;
-import com.stockify.catalog.response.ProductCategoryResponse;
+import com.stockify.catalog.response.PartnerCategoryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface PartnerCategoryMapper {
+public interface PartnerCategoryMapper extends BaseCategoryMapper<PartnerCategory, PartnerCategoryResponse> {
     @Mapping(target = "parentId", source = "parent.id")
-    ProductCategoryResponse toResponse(PartnerCategory category);
+    PartnerCategoryResponse toResponse(PartnerCategory category);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "parent", ignore = true)

@@ -1,23 +1,24 @@
 package com.stockify.catalog.service;
 
 import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.response.CategoryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.NoRepositoryBean;
 
-public interface CategoryService {
+@NoRepositoryBean
+public interface CategoryService<T> {
 
-    Page<CategoryResponse> getAll(Pageable pageable);
+    Page<T> getAll(Pageable pageable);
 
-    Page<CategoryResponse> getAllByActive(boolean active, Pageable pageable);
+    Page<T> getAllByActive(boolean active, Pageable pageable);
 
-    CategoryResponse getById(Long id);
+    T getById(Long id);
 
-    CategoryResponse create(CategoryDTO categoryDTO);
+    T create(CategoryDTO categoryDTO);
 
-    CategoryResponse update(Long id, CategoryDTO categoryDTO);
+    T update(Long id, CategoryDTO categoryDTO);
 
-    CategoryResponse move(Long id, Long newParentId);
+    T move(Long id, Long newParentId);
 
     void delete(Long id);
 }
