@@ -15,10 +15,10 @@ import java.util.Set;
                 @Index(name = "idx_category_parent_active", columnList = "parent_id, active")
         }
 )
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Category {
 
@@ -34,12 +34,10 @@ public class Category {
     private Long version;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
-    @Builder.Default
-    private Boolean active = true;
+    private Boolean active;
 
     @Column(name = "display_order", nullable = false)
-    @Builder.Default
-    private Integer displayOrder = CategoryConstants.DISPLAY_ORDER_DEFAULT_VALUE;
+    private Integer displayOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
