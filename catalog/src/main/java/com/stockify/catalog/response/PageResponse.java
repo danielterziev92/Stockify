@@ -1,4 +1,4 @@
-package com.stockify.catalog.repository;
+package com.stockify.catalog.response;
 
 import java.util.List;
 
