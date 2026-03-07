@@ -1,10 +1,13 @@
-package com.stockify.catalog.controller;
+package com.stockify.catalog.controller.rest;
 
+import com.stockify.catalog.openapi.CategoryPageableAsQueryParam;
 import com.stockify.catalog.dto.CategoryDTO;
 import com.stockify.catalog.dto.PatchCategoryDTO;
 import com.stockify.catalog.response.PageMetaResponse;
 import com.stockify.catalog.response.PageResponse;
 import com.stockify.catalog.service.CategoryService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,10 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
     @GetMapping
     public ResponseEntity<PageResponse<R>> getAllCategories(
             @RequestParam(name = "active", required = false) Boolean active,
+            @Parameter(
+                    description = "Pagination and sorting parameters",
+                    schema = @Schema(implementation = CategoryPageableAsQueryParam.class)
+            )
             @PageableDefault(sort = {"displayOrder", "id"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         Page<R> page;

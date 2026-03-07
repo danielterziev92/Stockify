@@ -1,4 +1,4 @@
-package com.stockify.catalog.controller;
+package com.stockify.catalog.controller.rest;
 
 import com.stockify.catalog.response.PartnerCategoryResponse;
 import com.stockify.catalog.service.PartnerCategoryService;
