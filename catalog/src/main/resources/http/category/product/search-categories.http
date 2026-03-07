@@ -1,0 +1,11 @@
+### Search product categories - by name
+GET http://localhost:8080/api/v1/products/categories/search?name=electron
+
+### Search product categories - by name, active only (default)
+GET http://localhost:8080/api/v1/products/categories/search?name=gaming
+
+### Search product categories - by name, including inactive
+GET http://localhost:8080/api/v1/products/categories/search?name=gaming&active=false
+
+### Search product categories - no results
+GET http://localhost:8080/api/v1/products/categories/search?name=nonexistent
