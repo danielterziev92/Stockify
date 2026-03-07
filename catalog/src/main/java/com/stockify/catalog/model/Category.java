@@ -3,6 +3,7 @@ package com.stockify.catalog.model;
 import com.stockify.catalog.constants.CategoryConstants;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,16 +12,18 @@ import java.util.Set;
 @Table(
         name = "categories",
         indexes = {
-                @Index(name = "idx_category_name_active", columnList = "name, active"),
-                @Index(name = "idx_category_parent_active", columnList = "parent_id, active")
+                @Index(name = "idx_category_name_active_dtype", columnList = "name, active, dtype"),
+                @Index(name = "idx_category_parent_active_dtype", columnList = "parent_id, active, dtype")
         }
 )
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING, columnDefinition = "VARCHAR(10)")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Category {
+@SuperBuilder
+public abstract class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +47,5 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private Set<Category> children = new HashSet<>();
 }

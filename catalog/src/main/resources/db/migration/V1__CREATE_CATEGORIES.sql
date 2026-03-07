@@ -6,11 +6,12 @@ CREATE TABLE categories
     active        BOOLEAN DEFAULT TRUE                    NOT NULL,
     display_order INTEGER                                 NOT NULL,
     parent_id     BIGINT,
+    dtype         VARCHAR(10)                             NOT NULL,
     CONSTRAINT pk_categories PRIMARY KEY (id)
 );
 
 ALTER TABLE categories
     ADD CONSTRAINT FK_CATEGORIES_ON_PARENT FOREIGN KEY (parent_id) REFERENCES categories (id);
 
-CREATE INDEX idx_category_name_active ON categories (name, active);
-CREATE INDEX idx_category_parent_active ON categories (parent_id, active);
+CREATE INDEX idx_category_name_active_dtype ON categories (name, active, dtype);
+CREATE INDEX idx_category_parent_active_dtype ON categories (parent_id, active, dtype);
