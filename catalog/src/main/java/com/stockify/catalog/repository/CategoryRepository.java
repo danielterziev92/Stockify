@@ -28,14 +28,20 @@ public interface CategoryRepository<T extends Category> extends JpaRepository<T,
                 SELECT id, parent_id
                 FROM categories
                 WHERE id = :categoryId
+                AND dtype = :dtype
             
                 UNION ALL
             
                 SELECT c.id, c.parent_id
                 FROM categories c
                 INNER JOIN descendants d ON c.parent_id = d.id
+                WHERE c.dtype = :dtype
             )
             SELECT id FROM descendants WHERE id = :targetId
             """, nativeQuery = true)
-    boolean isDescendant(@Param("categoryId") Long categoryId, @Param("targetId") Long targetId);
+    Long isDescendant(
+            @Param("categoryId") Long categoryId,
+            @Param("targetId") Long targetId,
+            @Param("dtype") String dtype
+    );
 }

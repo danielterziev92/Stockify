@@ -1,4 +1,4 @@
-package com.stockify.catalog.controller;
+package com.stockify.catalog.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.jspecify.annotations.NonNull;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class CategoryControllerAdvice {
+public class GlobalExceptionHandler {
 
     private static final URI NOT_FOUND_TYPE = URI.create("/errors/not-found");
     private static final URI VALIDATION_TYPE = URI.create("/errors/validation");
@@ -70,7 +70,7 @@ public class CategoryControllerAdvice {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ProblemDetail handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    public ProblemDetail handleHttpMessageNotReadableException(@NonNull HttpMessageNotReadableException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
                 "Request body is missing or cannot be parsed"
@@ -83,7 +83,7 @@ public class CategoryControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleException(Exception ex) {
+    public ProblemDetail handleException(@NonNull Exception ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An unexpected error occurred"

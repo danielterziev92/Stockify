@@ -12,6 +12,11 @@ public class ProductCategoryServiceImpl extends BaseCategoryServiceImpl<
         ProductCategory, ProductCategoryResponse, ProductCategoryRepository, ProductCategoryMapper
         > implements ProductCategoryService {
 
+    @Override
+    protected String getDtype() {
+        return "PRODUCT";
+    }
+
     public ProductCategoryServiceImpl(ProductCategoryRepository repository, ProductCategoryMapper mapper) {
         super(repository, mapper);
     }

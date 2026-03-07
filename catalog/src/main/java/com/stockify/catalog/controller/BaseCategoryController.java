@@ -1,6 +1,7 @@
 package com.stockify.catalog.controller;
 
 import com.stockify.catalog.dto.CategoryDTO;
+import com.stockify.catalog.dto.PatchCategoryDTO;
 import com.stockify.catalog.response.PageMetaResponse;
 import com.stockify.catalog.response.PageResponse;
 import com.stockify.catalog.service.CategoryService;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
 
@@ -21,13 +24,13 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
 
     @GetMapping
     public ResponseEntity<PageResponse<R>> getAllCategories(
-            @RequestParam(name = "active", required = false, defaultValue = "true") Boolean active,
+            @RequestParam(name = "active", required = false) Boolean active,
             @PageableDefault(sort = {"displayOrder", "id"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         Page<R> page;
 
-        if (active != null && active) {
-            page = this.service.getAllByActive(true, pageable);
+        if (active != null) {
+            page = this.service.getAllByActive(active, pageable);
         } else {
             page = this.service.getAll(pageable);
         }
@@ -35,6 +38,14 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new PageResponse<>(PageMetaResponse.from(page), page.getContent()));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<R>> search(
+            @RequestParam String name,
+            @RequestParam(name = "active", required = false, defaultValue = "true") Boolean active
+    ) {
+        return ResponseEntity.ok(this.service.search(name, active));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +65,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
     @PatchMapping("/{id}")
     public ResponseEntity<R> updateCategory(
             @PathVariable Long id,
-            @Valid @RequestBody CategoryDTO dto
+            @Valid @RequestBody PatchCategoryDTO dto
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)

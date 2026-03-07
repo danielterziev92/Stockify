@@ -12,6 +12,11 @@ public class PartnerCategoryServiceImpl extends BaseCategoryServiceImpl<
         PartnerCategory, PartnerCategoryResponse, PartnerCategoryRepository, PartnerCategoryMapper>
         implements PartnerCategoryService {
 
+    @Override
+    protected String getDtype() {
+        return "PARTNER";
+    }
+
     public PartnerCategoryServiceImpl(PartnerCategoryRepository repository, PartnerCategoryMapper mapper) {
         super(repository, mapper);
     }

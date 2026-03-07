@@ -2,6 +2,7 @@ package com.stockify.catalog.service.impl;
 
 import com.stockify.catalog.constants.CategoryConstants;
 import com.stockify.catalog.dto.CategoryDTO;
+import com.stockify.catalog.dto.PatchCategoryDTO;
 import com.stockify.catalog.mapper.BaseCategoryMapper;
 import com.stockify.catalog.model.Category;
 import com.stockify.catalog.repository.CategoryRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -22,6 +24,8 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
 
     protected final REPO repository;
     protected final MAPPER mapper;
+
+    protected abstract String getDtype();
 
     @Override
     @Transactional(readOnly = true)
@@ -38,6 +42,15 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
 
     @Override
     @Transactional(readOnly = true)
+    public List<R> search(String name, Boolean active) {
+        return this.repository.findAllByNameContainingIgnoreCaseAndActive(name, active)
+                .stream()
+                .map(this.mapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public R getById(@NonNull Long id) {
         return this.repository.findById(id)
                 .map(this.mapper::toResponse)
@@ -46,37 +59,30 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
 
     @Override
     @Transactional
-    public R create(@NonNull CategoryDTO categoryDTO) {
-        T category = this.mapper.toEntity(categoryDTO);
+    public R create(@NonNull CategoryDTO dto) {
+        T category = this.mapper.toEntity(dto);
 
-        category.setActive(categoryDTO.active() != null ? categoryDTO.active() : true);
-        category.setDisplayOrder(categoryDTO.displayOrder() != null ? categoryDTO.displayOrder() : 0);
+        category.setActive(dto.active() != null ? dto.active() : true);
+        category.setDisplayOrder(dto.displayOrder() != null ? dto.displayOrder() : 0);
 
-        if (categoryDTO.parentId() != null) this.checkAndSetParent(category, categoryDTO.parentId());
+        if (dto.parentId() != null) this.checkAndSetParent(category, dto.parentId());
 
         return this.saveAndResponse(category);
     }
 
     @Override
     @Transactional
-    public R update(@NonNull Long id, @NonNull CategoryDTO categoryDTO) {
+    public R update(@NonNull Long id, @NonNull PatchCategoryDTO dto) {
         T category = this.repository.findById(id)
                 .orElseThrow(() -> this.categoryNotFound(id));
 
-        boolean nameChanged = !category.getName().equals(categoryDTO.name());
-        boolean activeChange = !category.getActive().equals(categoryDTO.active());
-        boolean displayOrderChanged = !category.getDisplayOrder().equals(categoryDTO.displayOrder());
+        if (dto.name() != null && dto.name().isBlank())
+            throw new IllegalArgumentException("Category name cannot be blank");
 
-        Long currentParentId = category.getParent() != null ? category.getParent().getId() : null;
-        boolean parentChanged = !Objects.equals(currentParentId, categoryDTO.parentId());
-
-        if (!nameChanged && !activeChange && !displayOrderChanged && !parentChanged)
-            return this.mapper.toResponse(category);
-
-        if (nameChanged) category.setName(categoryDTO.name());
-        if (activeChange) category.setActive(categoryDTO.active());
-        if (displayOrderChanged) category.setDisplayOrder(categoryDTO.displayOrder());
-        if (parentChanged) this.checkAndSetParent(category, categoryDTO.parentId());
+        if (dto.name() != null) category.setName(dto.name());
+        if (dto.active() != null) category.setActive(dto.active());
+        if (dto.displayOrder() != null) category.setDisplayOrder(dto.displayOrder());
+        if (dto.parentId() != null) this.checkAndSetParent(category, dto.parentId());
 
         return this.saveAndResponse(category);
     }
@@ -92,7 +98,7 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
             if (newParentId.equals(id))
                 throw new IllegalArgumentException(CategoryConstants.CATEGORY_OWN_PARENT_MESSAGE);
 
-            if (this.repository.isDescendant(id, newParentId))
+            if (this.repository.isDescendant(id, newParentId, this.getDtype()) != null)
                 throw new IllegalArgumentException(CategoryConstants.CATEGORY_CIRCULAR_REFERENCE_MESSAGE);
 
             newParent = this.repository.getReferenceById(newParentId);
@@ -116,7 +122,7 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
         return new EntityNotFoundException(CategoryConstants.CATEGORY_NOT_FOUND_BY_ID_MESSAGE.formatted(id));
     }
 
-    private void checkAndSetParent(@NonNull T category, @NonNull Long parentId) {
+    private void checkAndSetParent(@NonNull T category,@NonNull Long parentId) {
         if (!this.repository.existsById(parentId))
             throw this.categoryNotFound(parentId);
 

@@ -1,0 +1,8 @@
+### Get all - page 1, 10 per page
+GET http://localhost:8080/api/v1/partners/categories?page=1&size=10
+
+### Get all active
+GET http://localhost:8080/api/v1/partners/categories?active=true&page=1&size=10
+
+### Get all inactive
+GET http://localhost:8080/api/v1/partners/categories?active=false&page=1&size=10
