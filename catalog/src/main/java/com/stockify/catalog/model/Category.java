@@ -47,5 +47,5 @@ public abstract class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Category> children = new HashSet<>();
+    private Set<Category> children;
 }

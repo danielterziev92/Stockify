@@ -12,6 +12,7 @@ public interface PartnerCategoryMapper extends BaseCategoryMapper<PartnerCategor
     PartnerCategoryResponse toResponse(PartnerCategory category);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "version", ignore = true)
     @Mapping(target = "parent", ignore = true)
     @Mapping(target = "children", ignore = true)
     PartnerCategory toEntity(CategoryDTO categoryDTO);

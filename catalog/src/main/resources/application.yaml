@@ -17,6 +17,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  mvc:
+    problemdetails:
+      enabled: true
   flyway:
     enabled: true
     locations: classpath:db/migration

@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@DiscriminatorValue("PRODUCT")
+@DiscriminatorValue("PARTNER")
 @Getter
 @Setter
 @NoArgsConstructor

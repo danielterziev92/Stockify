@@ -12,6 +12,7 @@ public interface ProductCategoryMapper extends BaseCategoryMapper<ProductCategor
     ProductCategoryResponse toResponse(ProductCategory category);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "version", ignore = true)
     @Mapping(target = "parent", ignore = true)
     @Mapping(target = "children", ignore = true)
     ProductCategory toEntity(CategoryDTO categoryDTO);
