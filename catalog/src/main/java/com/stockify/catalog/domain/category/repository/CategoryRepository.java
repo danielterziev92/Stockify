@@ -1,6 +1,6 @@
-package com.stockify.catalog.repository;
+package com.stockify.catalog.domain.category.repository;
 
-import com.stockify.catalog.model.Category;
+import com.stockify.catalog.domain.category.model.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface CategoryRepository<T extends Category> extends JpaRepository<T, Long> {
+
     Page<T> findAllByActive(boolean active, Pageable pageable);
 
     List<T> findAllByNameContainingIgnoreCaseAndActive(String name, boolean active);
