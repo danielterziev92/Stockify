@@ -1,4 +1,4 @@
-package com.stockify.catalog.openapi;
+package com.stockify.catalog.api.category.openapi;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

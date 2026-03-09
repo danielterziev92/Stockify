@@ -5,7 +5,7 @@ import com.stockify.catalog.api.category.response.PageResponse;
 import com.stockify.catalog.application.category.dto.CategoryDTOs;
 import com.stockify.catalog.application.category.usecase.CategoryApplicationService;
 import com.stockify.catalog.domain.category.model.Category;
-import com.stockify.catalog.openapi.CategoryPageableAsQueryParam;
+import com.stockify.catalog.api.category.openapi.CategoryPageableAsQueryParam;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;

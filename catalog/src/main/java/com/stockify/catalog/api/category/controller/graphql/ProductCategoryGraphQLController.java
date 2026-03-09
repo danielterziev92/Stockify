@@ -1,11 +1,10 @@
-package com.stockify.catalog.controller.graphql;
+package com.stockify.catalog.api.category.controller.graphql;
 
-import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.dto.PatchCategoryDTO;
 import com.stockify.catalog.api.category.response.PageMetaResponse;
 import com.stockify.catalog.api.category.response.PageResponse;
 import com.stockify.catalog.api.category.response.ProductCategoryResponse;
-import com.stockify.catalog.service.ProductCategoryService;
+import com.stockify.catalog.application.category.dto.CategoryDTOs;
+import com.stockify.catalog.application.category.usecase.ProductCategoryApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductCategoryGraphQLController {
 
-    private final ProductCategoryService service;
+    private final ProductCategoryApplicationService service;
 
     @QueryMapping
     public PageResponse<ProductCategoryResponse> productCategories(
@@ -58,14 +57,14 @@ public class ProductCategoryGraphQLController {
     }
 
     @MutationMapping
-    public ProductCategoryResponse createProductCategory(@Argument CategoryDTO input) {
+    public ProductCategoryResponse createProductCategory(@Argument CategoryDTOs.CreateCategoryCommand input) {
         return this.service.create(input);
     }
 
     @MutationMapping
     public ProductCategoryResponse updateProductCategory(
             @Argument Long id,
-            @Argument PatchCategoryDTO input
+            @Argument CategoryDTOs.UpdateCategoryCommand input
     ) {
         return this.service.update(id, input);
     }
