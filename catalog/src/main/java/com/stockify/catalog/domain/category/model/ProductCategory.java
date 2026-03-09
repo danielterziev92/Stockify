@@ -1,4 +1,4 @@
-package com.stockify.catalog.model;
+package com.stockify.catalog.domain.category.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

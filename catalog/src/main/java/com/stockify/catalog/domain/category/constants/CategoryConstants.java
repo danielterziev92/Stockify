@@ -1,4 +1,4 @@
-package com.stockify.catalog.constants;
+package com.stockify.catalog.domain.category.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -18,6 +18,7 @@ public final class CategoryConstants {
     public static final int DISPLAY_ORDER_DEFAULT_VALUE = 0;
     public static final int DISPLAY_ORDER_MIN_VALUE = 0;
     public static final String DISPLAY_ORDER_MIN_VALUE_MESSAGE = "Display order cannot be less than {value}";
+    public static final String DISPLAY_ORDER_NEGATIVE_MESSAGE = "Display order cannot be negative";
 
     public static final int PARENT_ID_MIN_VALUE = 1;
     public static final String PARENT_ID_MIN_VALUE_MESSAGE = "Parent id cannot be less than {value}";

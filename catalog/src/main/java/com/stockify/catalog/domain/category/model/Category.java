@@ -1,11 +1,13 @@
-package com.stockify.catalog.model;
+package com.stockify.catalog.domain.category.model;
 
-import com.stockify.catalog.constants.CategoryConstants;
+import com.stockify.catalog.domain.category.constants.CategoryConstants;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -48,4 +50,45 @@ public abstract class Category {
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Category> children;
+
+    public void moveTo(Category newParent) {
+        this.parent = newParent;
+    }
+
+    public void moveToRoot() {
+        this.parent = null;
+    }
+
+    public void activate() {
+        this.active = true;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
+
+    public void rename(String newName) {
+        if (newName == null || newName.isEmpty())
+            throw new IllegalArgumentException(CategoryConstants.NAME_NOT_BLANK_MESSAGE);
+
+        if (newName.length() > CategoryConstants.NAME_MAX_LENGTH)
+            throw new IllegalArgumentException(CategoryConstants.NAME_SIZE_MESSAGE);
+
+        this.name = newName;
+    }
+
+    public void reorder(int displayOrder) {
+        if (displayOrder < 0)
+            throw new IllegalArgumentException(CategoryConstants.DISPLAY_ORDER_NEGATIVE_MESSAGE);
+
+        this.displayOrder = displayOrder;
+    }
+
+    public boolean isRoot() {
+        return this.parent == null;
+    }
+
+    public boolean hasParent(Long parentId) {
+        return this.parent != null && this.parent.getId().equals(parentId);
+    }
 }
