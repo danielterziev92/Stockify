@@ -1,4 +1,4 @@
-package com.stockify.catalog.response;
+package com.stockify.catalog.api.category.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.Contract;

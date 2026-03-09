@@ -1,8 +1,8 @@
-package com.stockify.catalog.response;
+package com.stockify.catalog.api.category.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record PartnerCategoryResponse(
+public record ProductCategoryResponse(
         Long id,
         String name,
         boolean active,

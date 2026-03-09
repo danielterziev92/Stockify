@@ -2,9 +2,9 @@ package com.stockify.catalog.controller.graphql;
 
 import com.stockify.catalog.dto.CategoryDTO;
 import com.stockify.catalog.dto.PatchCategoryDTO;
-import com.stockify.catalog.response.PageMetaResponse;
-import com.stockify.catalog.response.PageResponse;
-import com.stockify.catalog.response.ProductCategoryResponse;
+import com.stockify.catalog.api.category.response.PageMetaResponse;
+import com.stockify.catalog.api.category.response.PageResponse;
+import com.stockify.catalog.api.category.response.ProductCategoryResponse;
 import com.stockify.catalog.service.ProductCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,11 +1,11 @@
-package com.stockify.catalog.controller.rest;
+package com.stockify.catalog.api.category.controller.rest;
 
+import com.stockify.catalog.api.category.response.PageMetaResponse;
+import com.stockify.catalog.api.category.response.PageResponse;
+import com.stockify.catalog.application.category.dto.CategoryDTOs;
+import com.stockify.catalog.application.category.usecase.CategoryApplicationService;
+import com.stockify.catalog.domain.category.model.Category;
 import com.stockify.catalog.openapi.CategoryPageableAsQueryParam;
-import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.dto.PatchCategoryDTO;
-import com.stockify.catalog.response.PageMetaResponse;
-import com.stockify.catalog.response.PageResponse;
-import com.stockify.catalog.service.CategoryService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -21,26 +21,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
+public abstract class BaseCategoryController<R, S extends CategoryApplicationService<? extends Category, R>> {
 
     protected final S service;
 
     @GetMapping
-    public ResponseEntity<PageResponse<R>> getAllCategories(
-            @RequestParam(name = "active", required = false) Boolean active,
+    public ResponseEntity<PageResponse<R>> getAll(
+            @RequestParam(required = false) Boolean active,
             @Parameter(
                     description = "Pagination and sorting parameters",
                     schema = @Schema(implementation = CategoryPageableAsQueryParam.class)
             )
             @PageableDefault(sort = {"displayOrder", "id"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        Page<R> page;
-
-        if (active != null) {
-            page = this.service.getAllByActive(active, pageable);
-        } else {
-            page = this.service.getAll(pageable);
-        }
+        Page<R> page = active != null
+                ? this.service.getAllByActive(active, pageable)
+                : this.service.getAll(pageable);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -50,37 +46,37 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
     @GetMapping("/search")
     public ResponseEntity<List<R>> search(
             @RequestParam String name,
-            @RequestParam(name = "active", required = false, defaultValue = "true") Boolean active
+            @RequestParam(required = false, defaultValue = "true") Boolean active
     ) {
         return ResponseEntity.ok(this.service.search(name, active));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<R> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<R> getById(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.service.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<R> createCategory(@Valid @RequestBody CategoryDTO dto) {
+    public ResponseEntity<R> create(@Valid @RequestBody CategoryDTOs.CreateCategoryCommand command) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(this.service.create(dto));
+                .body(this.service.create(command));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<R> updateCategory(
+    public ResponseEntity<R> update(
             @PathVariable Long id,
-            @Valid @RequestBody PatchCategoryDTO dto
+            @Valid @RequestBody CategoryDTOs.UpdateCategoryCommand command
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.service.update(id, dto));
+                .body(this.service.update(id, command));
     }
 
     @PatchMapping("/{id}/move")
-    public ResponseEntity<R> moveCategory(
+    public ResponseEntity<R> move(
             @PathVariable Long id,
             @RequestParam(name = "parentId", required = false) Long parentId
     ) {
@@ -90,7 +86,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.service.delete(id);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

@@ -1,4 +1,4 @@
-package com.stockify.catalog.advice;
+package com.stockify.catalog.api.category.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.jspecify.annotations.NonNull;
