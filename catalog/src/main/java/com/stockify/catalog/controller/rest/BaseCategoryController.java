@@ -25,7 +25,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
 
     protected final S service;
 
-    @GetMapping
+    @GetMapping(version = "1.0")
     public ResponseEntity<PageResponse<R>> getAllCategories(
             @RequestParam(name = "active", required = false) Boolean active,
             @Parameter(
@@ -47,7 +47,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
                 .body(new PageResponse<>(PageMetaResponse.from(page), page.getContent()));
     }
 
-    @GetMapping("/search")
+    @GetMapping(value = "/search", version = "1.0")
     public ResponseEntity<List<R>> search(
             @RequestParam String name,
             @RequestParam(name = "active", required = false, defaultValue = "true") Boolean active
@@ -55,21 +55,21 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
         return ResponseEntity.ok(this.service.search(name, active));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", version = "1.0")
     public ResponseEntity<R> getCategoryById(@PathVariable Long id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.service.getById(id));
     }
 
-    @PostMapping
+    @PostMapping(version = "1.0")
     public ResponseEntity<R> createCategory(@Valid @RequestBody CategoryDTO dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(this.service.create(dto));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}", version = "1.0")
     public ResponseEntity<R> updateCategory(
             @PathVariable Long id,
             @Valid @RequestBody PatchCategoryDTO dto
@@ -79,7 +79,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
                 .body(this.service.update(id, dto));
     }
 
-    @PatchMapping("/{id}/move")
+    @PatchMapping(value = "/{id}/move", version = "1.0")
     public ResponseEntity<R> moveCategory(
             @PathVariable Long id,
             @RequestParam(name = "parentId", required = false) Long parentId
@@ -89,7 +89,7 @@ public abstract class BaseCategoryController<R, S extends CategoryService<R>> {
                 .body(this.service.move(id, parentId));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", version = "1.0")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         this.service.delete(id);
         return ResponseEntity

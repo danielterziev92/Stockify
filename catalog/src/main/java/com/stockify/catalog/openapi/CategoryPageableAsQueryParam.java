@@ -16,7 +16,8 @@ public class CategoryPageableAsQueryParam {
     @Schema(
             description = "Number of items per page",
             defaultValue = "10",
-            minimum = "1"
+            minimum = "1",
+            maximum = "100"
     )
     private int size;
 

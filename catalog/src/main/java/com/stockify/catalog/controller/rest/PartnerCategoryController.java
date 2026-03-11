@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/partners/categories")
+@RequestMapping("/api/partners/categories")
 public class PartnerCategoryController extends BaseCategoryController<PartnerCategoryResponse, PartnerCategoryService> {
     public PartnerCategoryController(PartnerCategoryService service) {
         super(service);
