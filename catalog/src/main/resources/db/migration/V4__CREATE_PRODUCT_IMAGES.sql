@@ -4,7 +4,7 @@ CREATE TABLE product_images
     url           VARCHAR(200)                            NOT NULL,
     display_order INTEGER                                 NOT NULL,
     is_primary    BOOLEAN                                 NOT NULL,
-    version       BIGINT                                  NOT NULL DEFAULT 1,
+    version       BIGINT                                  NOT NULL DEFAULT 0,
     product_id    BIGINT                                  NOT NULL,
     CONSTRAINT pk_product_images PRIMARY KEY (id)
 );

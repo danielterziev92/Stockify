@@ -17,6 +17,4 @@ public final class ProductConstants {
 
     // ProductImage
     public static final int URL_MAX_LENGTH = 200;
-
-
 }

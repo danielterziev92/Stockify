@@ -5,7 +5,7 @@ CREATE TABLE products
     abbreviation    VARCHAR(20),
     base_price      DECIMAL(19, 8)                          NOT NULL,
     active          BOOLEAN                                 NOT NULL,
-    version         BIGINT                                  NOT NULL DEFAULT 1,
+    version         BIGINT                                  NOT NULL DEFAULT 0,
     product_type_id BIGINT                                  NOT NULL,
     category_id     BIGINT,
     CONSTRAINT pk_products PRIMARY KEY (id)
