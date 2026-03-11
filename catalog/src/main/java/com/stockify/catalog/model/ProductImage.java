@@ -31,6 +31,10 @@ public class ProductImage {
     @Column(name = "is_primary", nullable = false)
     private Boolean isPrimary;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
