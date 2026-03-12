@@ -12,7 +12,6 @@ import java.math.BigDecimal;
         indexes = {
                 @Index(name = "idx_variant_product_active", columnList = "product_id, active"),
                 @Index(name = "idx_variant_sku_active", columnList = "sku, active"),
-                @Index(name = "idx_variant_name_active", columnList = "name, active")
         },
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_variant_sku", columnNames = "sku")
@@ -28,9 +27,6 @@ public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = ProductVariantConstants.NAME_MAX_LENGTH, nullable = false)
-    private String name;
 
     @Column(length = ProductVariantConstants.SKU_MAX_LENGTH)
     private String sku;

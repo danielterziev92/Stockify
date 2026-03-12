@@ -12,4 +12,4 @@ CREATE TABLE product_images
 ALTER TABLE product_images
     ADD CONSTRAINT FK_PRODUCT_IMAGES_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES products (id);
 
-CREATE INDEX idx_image_product ON product_images (product_id);
+CREATE INDEX idx_product_image_product_id ON product_images (product_id);

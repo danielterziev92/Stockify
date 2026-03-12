@@ -1,6 +1,6 @@
 package com.stockify.catalog.model;
 
-import com.stockify.catalog.constants.ProductConstants;
+import com.stockify.catalog.constants.ProductImageConstants;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @Table(
         name = "product_images",
         indexes = {
-                @Index(name = "idx_image_product", columnList = "product_id")
+                @Index(name = "idx_product_image_product_id", columnList = "product_id")
         }
 )
 @Setter
@@ -22,7 +22,7 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = ProductConstants.URL_MAX_LENGTH, nullable = false)
+    @Column(length = ProductImageConstants.URL_MAX_LENGTH, nullable = false)
     private String url;
 
     @Column(name = "display_order", nullable = false)
