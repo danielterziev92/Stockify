@@ -1,6 +1,6 @@
 package com.stockify.catalog.model;
 
-import com.stockify.catalog.constants.ProductConstants;
+import com.stockify.catalog.constants.ProductTypeConstants;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +22,6 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = ProductConstants.TYPE_NAME_MAX_LENGTH, nullable = false)
+    @Column(length = ProductTypeConstants.NAME_MAX_LENGTH, nullable = false)
     private String name;
 }
