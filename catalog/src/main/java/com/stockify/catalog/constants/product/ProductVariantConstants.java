@@ -1,4 +1,4 @@
-package com.stockify.catalog.constants;
+package com.stockify.catalog.constants.product;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

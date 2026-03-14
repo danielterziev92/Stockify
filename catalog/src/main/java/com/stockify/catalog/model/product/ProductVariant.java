@@ -1,6 +1,6 @@
-package com.stockify.catalog.model;
+package com.stockify.catalog.model.product;
 
-import com.stockify.catalog.constants.ProductVariantConstants;
+import com.stockify.catalog.constants.product.ProductVariantConstants;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +28,10 @@ public class ProductVariant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @Column(length = ProductVariantConstants.SKU_MAX_LENGTH)
     private String sku;
 
@@ -42,13 +46,9 @@ public class ProductVariant {
     @Column(nullable = false)
     private Boolean active;
 
-    @Version
-    @Column(nullable = false)
-    private Long version;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private ProductBaseInfo product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
