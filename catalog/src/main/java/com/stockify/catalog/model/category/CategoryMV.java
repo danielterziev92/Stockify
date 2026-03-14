@@ -1,5 +1,6 @@
 package com.stockify.catalog.model.category;
 
+import com.stockify.catalog.dto.CategoryChildDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,6 +8,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.List;
 
 @Entity
 @Immutable
@@ -27,9 +32,10 @@ public class CategoryMV {
 
     private String dtype;
 
-    @Column(name = "parent_name")
-    private String parentName;
-
     @Column(name = "parent_id")
     private Long parentId;
+
+    @Column(name = "children", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<CategoryChildDTO> children;
 }

@@ -21,7 +21,7 @@ public interface CategoryMVRepository extends JpaRepository<CategoryMV, Long> {
             SELECT c
             FROM CategoryMV AS c
             WHERE c.dtype = :dtype
-            AND (c.id = :backticks_identifier  OR c.parentId = :id)
+            AND (c.id = :id OR c.parentId = :id)
             ORDER BY c.parentId NULLS FIRST, c.displayOrder ASC
             """)
     List<CategoryMV> findCategoryWithChildren(@Param("dtype") String dtype, @Param("id") Long id);

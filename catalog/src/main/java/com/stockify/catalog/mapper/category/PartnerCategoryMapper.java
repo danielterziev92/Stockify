@@ -8,7 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PartnerCategoryMapper extends BaseCategoryMapper<PartnerCategory, PartnerCategoryResponse> {
+
     @Mapping(target = "parentId", source = "parent.id")
+    @Mapping(target = "children", ignore = true)
     PartnerCategoryResponse toResponse(PartnerCategory category);
 
     @Mapping(target = "id", ignore = true)

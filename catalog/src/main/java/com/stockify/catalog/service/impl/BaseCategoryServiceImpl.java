@@ -39,14 +39,14 @@ public abstract class BaseCategoryServiceImpl<
     @Override
     @Transactional(readOnly = true)
     public Page<R> getAll(@NonNull Pageable pageable) {
-        return this.repository.findAll(pageable)
-                .map(this.mapper::toResponse);
+        return this.mvRepository.findAllByDtypeAndParentIdIsNull(this.getDtype(), pageable)
+                .map(this.mvMapper::toResponse);
     }
 
     @Override
     public Page<R> getAllByActive(boolean active, @NonNull Pageable pageable) {
-        return this.repository.findAllByActive(active, pageable)
-                .map(this.mapper::toResponse);
+        return this.mvRepository.findAllByDtypeAndParentIdIsNullAndActive(this.getDtype(), active, pageable)
+                .map(this.mvMapper::toResponse);
     }
 
     @Override
@@ -66,9 +66,9 @@ public abstract class BaseCategoryServiceImpl<
     @Override
     @Transactional(readOnly = true)
     public List<R> search(String name, Boolean active) {
-        return this.repository.findAllByNameContainingIgnoreCaseAndActive(name, active)
+        return this.mvRepository.findAllByDtypeAndNameContainingIgnoreCaseAndActive(this.getDtype(), name, active)
                 .stream()
-                .map(this.mapper::toResponse)
+                .map(this.mvMapper::toResponse)
                 .toList();
     }
 

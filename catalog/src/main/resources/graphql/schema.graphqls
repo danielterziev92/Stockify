@@ -14,13 +14,13 @@ type Query {
     ): ProductCategoryPage!
 
     """
-    Returns a single product category by its unique identifier.
+    Returns a category with its direct children by unique identifier.
     Throws NOT_FOUND if no category exists with the given id.
     """
     productCategory(
         "The unique identifier of the product category."
         id: ID!
-    ): ProductCategoryResponse
+    ): [ProductCategoryResponse!]!
 
     searchProductCategories(
         "Partial or full name to search for."
@@ -44,13 +44,13 @@ type Query {
     ): PartnerCategoryPage!
 
     """
-    Returns a single partner category by its unique identifier.
+    Returns a category with its direct children by unique identifier.
     Throws NOT_FOUND if no category exists with the given id.
     """
     partnerCategory(
         "The unique identifier of the partner category."
         id: ID!
-    ): PartnerCategoryResponse
+    ): [PartnerCategoryResponse!]!
 
     """
     Searches partner categories by name (case-insensitive, partial match).
@@ -169,6 +169,17 @@ type PageMeta {
 }
 
 """
+Represents a child category.
+Used to show direct children of a category.
+"""
+type CategoryChild {
+    "The unique identifier of the child category."
+    id: ID!
+    "The display name of the child category."
+    name: String!
+}
+
+"""
 Represents a product category in the catalog.
 Product categories are used to classify and organize inventory items.
 Categories support a hierarchical structure via the parentId field.
@@ -184,6 +195,8 @@ type ProductCategoryResponse {
     displayOrder: Int!
     "The id of the parent category. Null if this is a root category."
     parentId: ID
+    "The direct children of this category."
+    children: [CategoryChild!]!
 }
 
 """
@@ -203,6 +216,8 @@ type PartnerCategoryResponse {
     displayOrder: Int!
     "The id of the parent category. Null if this is a root category."
     parentId: ID
+    "The direct children of this category."
+    children: [CategoryChild!]!
 }
 
 """
