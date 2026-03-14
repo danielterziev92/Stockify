@@ -66,7 +66,7 @@ public class ProductAdditionalInfo {
     @JoinColumn(name = "country_of_origin_id")
     private ProductCountryOfOrigin countryOfOrigin;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private ProductBaseInfo product;
 }

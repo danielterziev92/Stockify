@@ -9,7 +9,7 @@ CREATE TABLE product_base_infos
     active       BOOLEAN                                 NOT NULL,
     type_id      BIGINT                                  NOT NULL,
     measure_id   BIGINT                                  NOT NULL,
-    category_id  BIGINT,
+    category_id  BIGINT                                  NOT NULL,
     CONSTRAINT pk_product_base_infos PRIMARY KEY (id)
 );
 
