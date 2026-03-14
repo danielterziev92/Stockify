@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProductCategoryMapper extends BaseCategoryMapper<ProductCategory, ProductCategoryResponse> {
     @Mapping(target = "parentId", source = "parent.id")
+    @Mapping(target = "children", ignore = true)
     ProductCategoryResponse toResponse(ProductCategory category);
 
     @Mapping(target = "id", ignore = true)

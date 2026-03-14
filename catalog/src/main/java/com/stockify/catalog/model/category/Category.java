@@ -28,12 +28,12 @@ public abstract class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = CategoryConstants.NAME_MAX_LENGTH, nullable = false)
-    private String name;
-
     @Version
     @Column(nullable = false)
     private Long version;
+
+    @Column(length = CategoryConstants.NAME_MAX_LENGTH, nullable = false)
+    private String name;
 
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean active;

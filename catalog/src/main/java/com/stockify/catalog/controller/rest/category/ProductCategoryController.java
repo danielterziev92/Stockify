@@ -1,6 +1,6 @@
-package com.stockify.catalog.controller.rest;
+package com.stockify.catalog.controller.rest.category;
 
-import com.stockify.catalog.response.ProductCategoryResponse;
+import com.stockify.catalog.response.category.ProductCategoryResponse;
 import com.stockify.catalog.service.ProductCategoryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

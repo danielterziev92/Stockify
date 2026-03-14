@@ -1,10 +1,10 @@
-package com.stockify.catalog.controller.graphql;
+package com.stockify.catalog.controller.graphql.category;
 
 import com.stockify.catalog.dto.CategoryDTO;
 import com.stockify.catalog.dto.PatchCategoryDTO;
 import com.stockify.catalog.response.PageMetaResponse;
 import com.stockify.catalog.response.PageResponse;
-import com.stockify.catalog.response.ProductCategoryResponse;
+import com.stockify.catalog.response.category.ProductCategoryResponse;
 import com.stockify.catalog.service.ProductCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,8 +45,8 @@ public class ProductCategoryGraphQLController {
     }
 
     @QueryMapping
-    public ProductCategoryResponse productCategory(@Argument Long id) {
-        return this.service.getById(id);
+    public List<ProductCategoryResponse> productCategory(@Argument Long id) {
+        return this.service.getByIdWithChildren(id);
     }
 
     @QueryMapping
