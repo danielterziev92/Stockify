@@ -1,6 +1,9 @@
 package com.stockify.catalog.model;
 
-import com.stockify.catalog.constants.ProductConstants;
+import com.stockify.catalog.constants.product.ProductConstants;
+import com.stockify.catalog.model.category.ProductCategory;
+import com.stockify.catalog.model.product.ProductMeasures;
+import com.stockify.catalog.model.product.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,9 +12,11 @@ import java.util.Set;
 
 @Entity
 @Table(
-        name = "products",
+        name = "product_base_infos",
         indexes = {
                 @Index(name = "idx_product_name_active", columnList = "name, active"),
+                @Index(name = "idx_product_type", columnList = "type_id"),
+                @Index(name = "idx_product_measure", columnList = "measure_id"),
                 @Index(name = "idx_product_category", columnList = "category_id")
         },
         uniqueConstraints = {
@@ -23,11 +28,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class ProductBaseInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     @Column(length = ProductConstants.NAME_MAX_LENGTH, nullable = false)
     private String name;
@@ -49,13 +58,13 @@ public class Product {
     @Column(nullable = false)
     private Boolean active;
 
-    @Version
-    @Column(nullable = false)
-    private Long version;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "type_id", nullable = false)
+    private ProductType type;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_type_id", nullable = false)
-    private ProductType productType;
+    @JoinColumn(name = "measure_id", nullable = false)
+    private ProductMeasures measure;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
