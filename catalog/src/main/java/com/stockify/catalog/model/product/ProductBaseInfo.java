@@ -1,9 +1,7 @@
-package com.stockify.catalog.model;
+package com.stockify.catalog.model.product;
 
-import com.stockify.catalog.constants.product.ProductConstants;
+import com.stockify.catalog.constants.product.ProductBaseInfoConstants;
 import com.stockify.catalog.model.category.ProductCategory;
-import com.stockify.catalog.model.product.ProductMeasures;
-import com.stockify.catalog.model.product.ProductType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,20 +36,20 @@ public class ProductBaseInfo {
     @Column(nullable = false)
     private Long version;
 
-    @Column(length = ProductConstants.NAME_MAX_LENGTH, nullable = false)
+    @Column(length = ProductBaseInfoConstants.NAME_MAX_LENGTH, nullable = false)
     private String name;
 
-    @Column(length = ProductConstants.ABBREVIATION_MAX_LENGTH)
+    @Column(length = ProductBaseInfoConstants.ABBREVIATION_MAX_LENGTH)
     private String abbreviation;
 
-    @Column(length = ProductConstants.DESCRIPTION_MAX_LENGTH)
+    @Column(length = ProductBaseInfoConstants.DESCRIPTION_MAX_LENGTH)
     private String description;
 
     @Column(
             name = "base_price",
             nullable = false,
-            precision = ProductConstants.BASE_PRICE_PRECISION,
-            scale = ProductConstants.BASE_PRICE_SCALE
+            precision = ProductBaseInfoConstants.BASE_PRICE_PRECISION,
+            scale = ProductBaseInfoConstants.BASE_PRICE_SCALE
     )
     private BigDecimal basePrice;
 
