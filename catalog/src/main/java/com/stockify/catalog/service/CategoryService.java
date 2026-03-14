@@ -13,6 +13,8 @@ public interface CategoryService<T> {
 
     Page<T> getAllByActive(boolean active, Pageable pageable);
 
+    List<T> getByIdWithChildren(Long id);
+
     List<T> search(String name, Boolean active);
 
     T getById(Long id);

@@ -1,8 +1,8 @@
-package com.stockify.catalog.mapper;
+package com.stockify.catalog.mapper.category;
 
 import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.model.PartnerCategory;
-import com.stockify.catalog.response.PartnerCategoryResponse;
+import com.stockify.catalog.model.category.PartnerCategory;
+import com.stockify.catalog.response.category.PartnerCategoryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -53,3 +53,5 @@ INSERT INTO categories (name, version, active, display_order, parent_id, dtype) 
 -- Children of Marketing (id=28)
                                                                                     ('Digital Marketing', 0, true, 1, 28, 'PARTNER'),
                                                                                     ('Traditional Marketing', 0, false, 2, 28, 'PARTNER');
+
+REFRESH MATERIALIZED VIEW CONCURRENTLY category_mv;

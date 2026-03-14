@@ -1,11 +1,14 @@
 package com.stockify.catalog.service.impl;
 
-import com.stockify.catalog.constants.CategoryConstants;
+import com.stockify.catalog.constants.category.CategoryConstants;
 import com.stockify.catalog.dto.CategoryDTO;
 import com.stockify.catalog.dto.PatchCategoryDTO;
-import com.stockify.catalog.mapper.BaseCategoryMapper;
-import com.stockify.catalog.model.Category;
-import com.stockify.catalog.repository.CategoryRepository;
+import com.stockify.catalog.mapper.category.BaseCategoryMapper;
+import com.stockify.catalog.mapper.category.CategoryMVMapper;
+import com.stockify.catalog.model.category.Category;
+import com.stockify.catalog.model.category.CategoryMV;
+import com.stockify.catalog.repository.category.CategoryMVRepository;
+import com.stockify.catalog.repository.category.CategoryRepository;
 import com.stockify.catalog.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +19,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
-public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extends CategoryRepository<T>, MAPPER extends BaseCategoryMapper<T, R>>
+public abstract class BaseCategoryServiceImpl<
+        T extends Category,
+        R,
+        REPO extends CategoryRepository<T>,
+        MAPPER extends BaseCategoryMapper<T, R>,
+        MV_MAPPER extends CategoryMVMapper<R>>
         implements CategoryService<R> {
 
     protected final REPO repository;
     protected final MAPPER mapper;
+    protected final CategoryMVRepository mvRepository;
+    protected final MV_MAPPER mvMapper;
 
     protected abstract String getDtype();
 
@@ -38,6 +47,20 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
     public Page<R> getAllByActive(boolean active, @NonNull Pageable pageable) {
         return this.repository.findAllByActive(active, pageable)
                 .map(this.mapper::toResponse);
+    }
+
+    @Override
+    public List<R> getByIdWithChildren(Long id) {
+        List<CategoryMV> results = this.mvRepository.findCategoryWithChildren(this.getDtype(), id);
+
+        if (results.isEmpty() || results.stream().noneMatch(c -> c.getId().equals(id)))
+            throw new EntityNotFoundException(
+                    CategoryConstants.CATEGORY_NOT_FOUND_BY_ID_MESSAGE.formatted(id)
+            );
+
+        return results.stream()
+                .map(this.mvMapper::toResponse)
+                .toList();
     }
 
     @Override
@@ -122,7 +145,7 @@ public abstract class BaseCategoryServiceImpl<T extends Category, R, REPO extend
         return new EntityNotFoundException(CategoryConstants.CATEGORY_NOT_FOUND_BY_ID_MESSAGE.formatted(id));
     }
 
-    private void checkAndSetParent(@NonNull T category,@NonNull Long parentId) {
+    private void checkAndSetParent(@NonNull T category, @NonNull Long parentId) {
         if (!this.repository.existsById(parentId))
             throw this.categoryNotFound(parentId);
 

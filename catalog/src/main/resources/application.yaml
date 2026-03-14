@@ -18,6 +18,9 @@ spring:
       pageable:
         one-indexed-parameters: true
         max-page-size: 100
+  threads:
+    virtual:
+      enabled: true
   mvc:
     apiversion:
       supported: "1.0, 2.0"

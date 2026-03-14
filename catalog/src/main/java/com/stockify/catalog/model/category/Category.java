@@ -1,11 +1,10 @@
-package com.stockify.catalog.model;
+package com.stockify.catalog.model.category;
 
-import com.stockify.catalog.constants.CategoryConstants;
+import com.stockify.catalog.constants.category.CategoryConstants;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity

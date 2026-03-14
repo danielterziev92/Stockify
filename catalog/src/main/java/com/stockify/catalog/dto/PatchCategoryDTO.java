@@ -1,7 +1,7 @@
 package com.stockify.catalog.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.stockify.catalog.constants.CategoryConstants;
+import com.stockify.catalog.constants.category.CategoryConstants;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 

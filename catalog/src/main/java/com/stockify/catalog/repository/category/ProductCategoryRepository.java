@@ -1,6 +1,6 @@
-package com.stockify.catalog.repository;
+package com.stockify.catalog.repository.category;
 
-import com.stockify.catalog.model.ProductCategory;
+import com.stockify.catalog.model.category.ProductCategory;
 import org.springframework.stereotype.Repository;
 
 @Repository

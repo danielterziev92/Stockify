@@ -1,6 +1,6 @@
-package com.stockify.catalog.repository;
+package com.stockify.catalog.repository.category;
 
-import com.stockify.catalog.model.Category;
+import com.stockify.catalog.model.category.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
