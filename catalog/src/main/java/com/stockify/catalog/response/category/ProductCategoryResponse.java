@@ -1,7 +1,7 @@
 package com.stockify.catalog.response.category;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.stockify.catalog.dto.CategoryChildDTO;
+import com.stockify.catalog.dto.category.CategoryChildDTO;
 
 import java.util.List;
 

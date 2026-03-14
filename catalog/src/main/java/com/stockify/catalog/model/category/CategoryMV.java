@@ -1,6 +1,6 @@
 package com.stockify.catalog.model.category;
 
-import com.stockify.catalog.dto.CategoryChildDTO;
+import com.stockify.catalog.dto.category.CategoryChildDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

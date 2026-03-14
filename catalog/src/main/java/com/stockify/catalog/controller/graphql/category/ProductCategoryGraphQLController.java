@@ -1,7 +1,7 @@
 package com.stockify.catalog.controller.graphql.category;
 
-import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.dto.PatchCategoryDTO;
+import com.stockify.catalog.dto.category.CategoryDTO;
+import com.stockify.catalog.dto.category.PatchCategoryDTO;
 import com.stockify.catalog.response.PageMetaResponse;
 import com.stockify.catalog.response.PageResponse;
 import com.stockify.catalog.response.category.ProductCategoryResponse;

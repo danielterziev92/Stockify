@@ -1,8 +1,8 @@
 package com.stockify.catalog.service.impl;
 
 import com.stockify.catalog.constants.category.CategoryConstants;
-import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.dto.PatchCategoryDTO;
+import com.stockify.catalog.dto.category.CategoryDTO;
+import com.stockify.catalog.dto.category.PatchCategoryDTO;
 import com.stockify.catalog.mapper.category.BaseCategoryMapper;
 import com.stockify.catalog.mapper.category.CategoryMVMapper;
 import com.stockify.catalog.model.category.Category;

@@ -1,4 +1,4 @@
-package com.stockify.catalog.dto;
+package com.stockify.catalog.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.stockify.catalog.constants.category.CategoryConstants;

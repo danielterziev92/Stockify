@@ -1,7 +1,7 @@
 package com.stockify.catalog.service;
 
-import com.stockify.catalog.dto.CategoryDTO;
-import com.stockify.catalog.dto.PatchCategoryDTO;
+import com.stockify.catalog.dto.category.CategoryDTO;
+import com.stockify.catalog.dto.category.PatchCategoryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
