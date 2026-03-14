@@ -12,7 +12,6 @@ import java.util.Set;
         name = "product_variants",
         indexes = {
                 @Index(name = "idx_variant_product_active", columnList = "product_id, active"),
-                @Index(name = "idx_variant_sku_active", columnList = "sku, active"),
         },
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_variant_sku", columnNames = "sku")

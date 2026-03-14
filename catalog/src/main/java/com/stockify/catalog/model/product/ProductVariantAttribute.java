@@ -6,9 +6,6 @@ import lombok.*;
 @Entity
 @Table(
         name = "product_variant_attributes",
-        indexes = {
-                @Index(name = "idx_variant_attribute_variant", columnList = "variant_id")
-        },
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_variant_attribute_value", columnNames = {"variant_id", "attribute_value_id"}),
                 @UniqueConstraint(name = "uk_variant_attribute_order", columnNames = {"variant_id", "order"})

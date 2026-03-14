@@ -13,3 +13,5 @@ ALTER TABLE product_barcodes
 
 ALTER TABLE product_barcodes
     ADD CONSTRAINT uk_product_barcode_value UNIQUE (value);
+
+CREATE INDEX idx_product_barcode_variant ON product_barcodes (variant_id);

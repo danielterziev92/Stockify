@@ -4,7 +4,7 @@ import com.stockify.catalog.constants.product.ProductBarcodeTemplateConstants;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(
@@ -38,5 +38,5 @@ public class ProductBarcodeTemplate {
     private Integer length;
 
     @OneToMany(mappedBy = "template", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductBarcodeSegment> segments;
+    private List<ProductBarcodeSegment> segments;
 }

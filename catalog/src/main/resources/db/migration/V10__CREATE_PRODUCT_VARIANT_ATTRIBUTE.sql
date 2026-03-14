@@ -19,5 +19,3 @@ ALTER TABLE product_variant_attributes
 
 ALTER TABLE product_variant_attributes
     ADD CONSTRAINT FK_PRODUCT_VARIANT_ATTRIBUTES_ON_VARIANT FOREIGN KEY (variant_id) REFERENCES product_variants (id);
-
-CREATE INDEX idx_variant_attribute_variant ON product_variant_attributes (variant_id);

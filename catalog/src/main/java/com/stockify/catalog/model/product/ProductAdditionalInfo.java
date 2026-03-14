@@ -51,8 +51,8 @@ public class ProductAdditionalInfo {
     )
     private BigDecimal depth;
 
-    @Column(length = ProductAdditionalInfoConstants.DIMENSION_TYPE_MAX_LENGTH)
-    private String dimension_type;
+    @Column(name = "dimension_type", length = ProductAdditionalInfoConstants.DIMENSION_TYPE_MAX_LENGTH)
+    private String dimensionType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "weight_measurement_id")

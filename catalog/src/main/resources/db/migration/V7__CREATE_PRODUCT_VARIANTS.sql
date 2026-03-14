@@ -20,5 +20,3 @@ ALTER TABLE product_variants
     ADD CONSTRAINT FK_PRODUCT_VARIANTS_ON_IMAGE FOREIGN KEY (image_id) REFERENCES product_images (id);
 
 CREATE INDEX idx_variant_product_active ON product_variants (product_id, active);
-
-CREATE INDEX idx_variant_image ON product_variants (image_id);
