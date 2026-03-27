@@ -1,8 +1,0 @@
-### Move category to a new parent
-PATCH http://localhost:8080/api/v1/partners/categories/21/move?parentId=31
-
-### Move category to root (no parent)
-PATCH http://localhost:8080/api/v1/partners/categories/31/move
-
-### Move - circular reference (IllegalArgumentException)
-PATCH http://localhost:8080/api/v1/partners/categories/31/move?parentId=21
