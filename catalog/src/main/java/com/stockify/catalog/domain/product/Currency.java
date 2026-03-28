@@ -10,16 +10,12 @@ import org.jmolecules.ddd.types.Identifier;
 import org.jspecify.annotations.NonNull;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Currency implements AggregateRoot<Currency, Currency.CurrencyId> {
 
-    public record CurrencyId(UUID value) implements Identifier {
-        public static @NonNull CurrencyId generate() {
-            return new CurrencyId(UUID.randomUUID());
-        }
+    public record CurrencyId(Long value) implements Identifier {
     }
 
     private final CurrencyId id;
@@ -36,7 +32,7 @@ public class Currency implements AggregateRoot<Currency, Currency.CurrencyId> {
         validateName(name);
         validateValue(value);
 
-        return new Currency(CurrencyId.generate(), code, name, value);
+        return new Currency(null, code, name, value);
     }
 
     public static @NonNull Currency reconstitute(

@@ -24,25 +24,40 @@ public class AttributeValue implements Entity<AttributeKey, AttributeValue.Attri
     private final String abbreviation;
 
     public static @Nonnull AttributeValue create(
-            @Nullable AttributeValueId id,
             AttributeKey.@NonNull AttributeKeyId keyId,
             @NonNull String value,
             @Nullable String abbreviation
     ) {
+        validateValue(value);
+        validateAbbreviation(abbreviation);
+
+        return new AttributeValue(null, keyId, value, abbreviation);
+    }
+
+    public static @Nonnull AttributeValue reconstitute(
+            @NonNull AttributeValueId id,
+            AttributeKey.@NonNull AttributeKeyId keyId,
+            @NonNull String value,
+            @Nullable String abbreviation
+    ) {
+        return new AttributeValue(id, keyId, value, abbreviation);
+    }
+
+    private static void validateValue(@NonNull String value) {
         if (value.isBlank())
             throw new InvalidValueException(AttributeRule.AttributeValue.Value.BLANK_MSG);
 
         if (value.length() > AttributeRule.AttributeValue.Value.MAX_LENGTH)
             throw new InvalidValueException(AttributeRule.AttributeValue.Value.MAX_LENGTH_MSG, value.length());
+    }
 
-        if (abbreviation != null) {
-            if (abbreviation.isBlank())
-                throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.BLANK_MSG);
+    private static void validateAbbreviation(@Nullable String abbreviation) {
+        if (abbreviation == null) return;
 
-            if (abbreviation.length() > AttributeRule.AttributeValue.Abbreviation.MAX_LENGTH)
-                throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.MAX_LENGTH_MSG, abbreviation.length());
-        }
+        if (abbreviation.isBlank())
+            throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.BLANK_MSG);
 
-        return new AttributeValue(id, keyId, value, abbreviation);
+        if (abbreviation.length() > AttributeRule.AttributeValue.Abbreviation.MAX_LENGTH)
+            throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.MAX_LENGTH_MSG, abbreviation.length());
     }
 }

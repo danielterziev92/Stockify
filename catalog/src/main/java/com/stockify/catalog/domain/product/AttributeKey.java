@@ -7,7 +7,6 @@ import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.jmolecules.ddd.types.Identifier;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,14 +27,24 @@ public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKey.At
         this.values = new HashSet<>();
     }
 
-    public static @NonNull AttributeKey create(@Nullable AttributeKeyId id, @Nonnull String name) {
+    public static @NonNull AttributeKey create(@Nonnull String name) {
         if (name.isBlank())
             throw new InvalidValueException(AttributeRule.AttributeKey.Name.BLANK_MSG);
 
         if (name.length() > AttributeRule.AttributeKey.Name.MAX_LENGTH)
             throw new InvalidValueException(AttributeRule.AttributeKey.Name.MAX_LENGTH_MSG, name.length());
 
-        return new AttributeKey(id, name);
+        return new AttributeKey(null, name);
+    }
+
+    public static @NonNull AttributeKey reconstitute(
+            @NonNull AttributeKeyId id,
+            @NonNull String name,
+            @NonNull Set<AttributeValue> values
+    ) {
+        AttributeKey attributeKey = new AttributeKey(id, name);
+        attributeKey.values.addAll(values);
+        return attributeKey;
     }
 
     public void addValue(@NonNull AttributeValue value) {

@@ -18,7 +18,7 @@ public final class TaxRule {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Value {
-        public static final BigDecimal MIN_VALUE = BigDecimal.valueOf(0);
+        public static final BigDecimal MIN_VALUE = BigDecimal.ZERO;
         public static final BigDecimal MAX_VALUE = BigDecimal.valueOf(100);
 
         public static final String MIN_VALUE_MSG = "tax.value.min-value";
