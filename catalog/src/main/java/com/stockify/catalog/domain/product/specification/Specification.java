@@ -1,4 +1,4 @@
-package com.stockify.catalog.domain.specification;
+package com.stockify.catalog.domain.product.specification;
 
 public interface Specification<T> {
     boolean isSatisfiedBy(T candidate);

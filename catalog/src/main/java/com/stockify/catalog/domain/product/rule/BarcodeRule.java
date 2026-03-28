@@ -1,4 +1,4 @@
-package com.stockify.catalog.domain.rule;
+package com.stockify.catalog.domain.product.rule;
 
 import lombok.NoArgsConstructor;
 

@@ -1,7 +1,7 @@
-package com.stockify.catalog.domain.specification;
+package com.stockify.catalog.domain.product.specification;
 
-import com.stockify.catalog.domain.BarcodeType;
-import com.stockify.catalog.domain.rule.BarcodeRule;
+import com.stockify.catalog.domain.product.BarcodeType;
+import com.stockify.catalog.domain.product.rule.BarcodeRule;
 import org.jspecify.annotations.NonNull;
 
 public class EAN13Specification extends BarcodeSpecification {

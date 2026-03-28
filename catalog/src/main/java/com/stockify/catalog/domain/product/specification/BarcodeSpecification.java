@@ -1,8 +1,7 @@
-package com.stockify.catalog.domain.specification;
+package com.stockify.catalog.domain.product.specification;
 
-import com.stockify.catalog.domain.Barcode;
-import com.stockify.catalog.domain.BarcodeType;
-import com.stockify.catalog.domain.rule.BarcodeRule;
+import com.stockify.catalog.domain.product.BarcodeType;
+import com.stockify.catalog.domain.product.rule.BarcodeRule;
 import org.jspecify.annotations.NonNull;
 
 import java.util.random.RandomGenerator;
@@ -13,14 +12,14 @@ public abstract class BarcodeSpecification implements Specification<String> {
 
     protected abstract int length();
 
-    protected @NonNull Barcode generate() {
+    protected @NonNull String generate() {
         StringBuilder value = new StringBuilder(BarcodeRule.Internal.PREFIX);
         int remaining = length() - BarcodeRule.Internal.PREFIX_LENGTH;
 
         RandomGenerator rng = RandomGenerator.getDefault();
         for (int i = 0; i < remaining; i++) value.append(rng.nextInt(10));
 
-        return Barcode.of(null, value.toString(), supportedType());
+        return value.toString();
     }
 
     protected boolean isDigitalOnly(@NonNull String value) {

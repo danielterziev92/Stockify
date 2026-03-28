@@ -1,7 +1,7 @@
-package com.stockify.catalog.domain;
+package com.stockify.catalog.domain.product;
 
-import com.stockify.catalog.domain.rule.BarcodeRule;
-import com.stockify.catalog.domain.specification.BarcodeSpecificationRegistry;
+import com.stockify.catalog.domain.product.rule.BarcodeRule;
+import com.stockify.catalog.domain.product.specification.BarcodeSpecificationRegistry;
 import com.stockify.catalog.shared.exception.InvalidValueException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
