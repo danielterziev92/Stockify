@@ -3,12 +3,13 @@ package com.stockify.catalog.domain.product.specification;
 import com.stockify.catalog.domain.product.BarcodeType;
 import com.stockify.catalog.domain.product.rule.BarcodeRule;
 import com.stockify.catalog.shared.exception.InvalidValueException;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 
-@NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BarcodeSpecificationRegistry {
 
     private static final Map<BarcodeType, BarcodeSpecification> REGISTRY = Map.of(
