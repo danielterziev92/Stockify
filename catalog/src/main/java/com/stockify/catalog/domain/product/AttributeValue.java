@@ -2,7 +2,6 @@ package com.stockify.catalog.domain.product;
 
 import com.stockify.catalog.domain.product.rule.AttributeRule;
 import com.stockify.catalog.shared.exception.InvalidValueException;
-import jakarta.annotation.Nonnull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +22,7 @@ public class AttributeValue implements Entity<AttributeKey, AttributeValue.Attri
     private final String value;
     private final String abbreviation;
 
-    public static @Nonnull AttributeValue create(
+    public static @NonNull AttributeValue create(
             AttributeKey.@NonNull AttributeKeyId keyId,
             @NonNull String value,
             @Nullable String abbreviation
@@ -34,7 +33,7 @@ public class AttributeValue implements Entity<AttributeKey, AttributeValue.Attri
         return new AttributeValue(null, keyId, value, abbreviation);
     }
 
-    public static @Nonnull AttributeValue reconstitute(
+    public static @NonNull AttributeValue reconstitute(
             @NonNull AttributeValueId id,
             AttributeKey.@NonNull AttributeKeyId keyId,
             @NonNull String value,
