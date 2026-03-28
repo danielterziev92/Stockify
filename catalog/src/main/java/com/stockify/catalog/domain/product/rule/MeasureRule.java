@@ -30,5 +30,6 @@ public final class MeasureRule {
 
         public static final String MIN_VALUE_MSG = "measure.scale.min-value";
         public static final String MAX_VALUE_MSG = "measure.scale.max-value";
+        public static final String EXCEEDS_PRECISION_MSG = "measure.scale.exceeds-precision";
     }
 }

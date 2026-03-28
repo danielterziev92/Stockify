@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CurrencyRule {
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Code {
         public static final int LENGTH = 3;
 
@@ -15,6 +16,7 @@ public final class CurrencyRule {
         public static final String LENGTH_MSG = "currency.code.length";
     }
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Name {
         public static final int MAX_LENGTH = 20;
 
@@ -22,6 +24,7 @@ public final class CurrencyRule {
         public static final String MAX_LENGTH_MSG = "currency.name.max-length";
     }
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Value {
         public static final int SCALE = 6;
         public static final BigDecimal MAX_VALUE = new BigDecimal("99999.999999");

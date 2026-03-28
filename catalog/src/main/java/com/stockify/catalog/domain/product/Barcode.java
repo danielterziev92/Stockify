@@ -18,8 +18,8 @@ public class Barcode implements Entity<Product, Barcode.BarcodeId> {
     }
 
     private final BarcodeId id;
-    private String value;
-    private BarcodeType type;
+    private final String value;
+    private final BarcodeType type;
 
     public static @NonNull Barcode create(
             @NonNull String value,

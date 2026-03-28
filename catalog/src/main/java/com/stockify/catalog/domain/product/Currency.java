@@ -44,6 +44,16 @@ public class Currency implements AggregateRoot<Currency, Currency.CurrencyId> {
         return new Currency(id, code, name, value);
     }
 
+    public void changeName(@NonNull String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public void changeValue(@NonNull BigDecimal value) {
+        validateValue(value);
+        this.value = value;
+    }
+
     private static void validateCode(@NonNull String code) {
         if (code.isBlank())
             throw new InvalidValueException(CurrencyRule.Code.BLANK_CODE_MSG);

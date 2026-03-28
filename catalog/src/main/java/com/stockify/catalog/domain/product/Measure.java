@@ -28,6 +28,7 @@ public class Measure implements AggregateRoot<Measure, Measure.MeasureId> {
         validateUnit(unit);
         validatePrecision(precision);
         validateScale(scale);
+        validatePrecisionScaleRelation(precision, scale);
 
         return new Measure(null, unit, precision, scale);
     }
@@ -41,8 +42,26 @@ public class Measure implements AggregateRoot<Measure, Measure.MeasureId> {
         return new Measure(id, unit, precision, scale);
     }
 
+    public void changeUnit(@NonNull String unit) {
+        validateUnit(unit);
+        this.unit = unit;
+    }
+
+    public void changePrecision(@NonNull Integer precision) {
+        validatePrecision(precision);
+        validatePrecisionScaleRelation(precision, this.scale);
+        this.precision = precision;
+    }
+
+    public void changeScale(@NonNull Integer scale) {
+        validateScale(scale);
+        validatePrecisionScaleRelation(this.precision, scale);
+        this.scale = scale;
+    }
+
     private static void validateUnit(@NonNull String unit) {
-        if (unit.isBlank()) throw new InvalidValueException(MeasureRule.Unit.BLANK_MSG);
+        if (unit.isBlank())
+            throw new InvalidValueException(MeasureRule.Unit.BLANK_MSG);
 
         if (unit.length() > MeasureRule.Unit.MAX_LENGTH)
             throw new InvalidValueException(MeasureRule.Unit.MAX_LENGTH_MSG, unit.length());
@@ -62,5 +81,9 @@ public class Measure implements AggregateRoot<Measure, Measure.MeasureId> {
 
         if (scale > MeasureRule.Scale.MAX_VALUE)
             throw new InvalidValueException(MeasureRule.Scale.MAX_VALUE_MSG);
+    }
+
+    private static void validatePrecisionScaleRelation(@NonNull Integer precision, @NonNull Integer scale) {
+        if (scale > precision) throw new InvalidValueException(MeasureRule.Scale.EXCEEDS_PRECISION_MSG);
     }
 }
