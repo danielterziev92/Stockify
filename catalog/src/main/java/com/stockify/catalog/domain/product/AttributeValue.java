@@ -1,41 +1,48 @@
 package com.stockify.catalog.domain.product;
 
 import com.stockify.catalog.domain.product.rule.AttributeRule;
+import com.stockify.catalog.domain.product.vo.AttributeKeyId;
+import com.stockify.catalog.domain.product.vo.AttributeValueId;
 import com.stockify.catalog.shared.exception.InvalidValueException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.FieldNameConstants;
 import org.jmolecules.ddd.types.Entity;
-import org.jmolecules.ddd.types.Identifier;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+/**
+ * Entity representing a single possible value for an {@link AttributeKey}
+ * (e.g. "Red" for key "Color", or "XL" for key "Size").
+ *
+ * <p>An {@link AttributeValue} is always owned by an {@link AttributeKey} and must not
+ * be mutated directly — all changes must go through the aggregate root.
+ */
 @Getter
+@FieldNameConstants
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class AttributeValue implements Entity<AttributeKey, AttributeValue.AttributeValueId> {
-
-    public record AttributeValueId(Long value) implements Identifier {
-    }
+public class AttributeValue implements Entity<AttributeKey, AttributeValueId> {
 
     private final AttributeValueId id;
-    private final AttributeKey.AttributeKeyId keyId;
+    private final AttributeKeyId keyId;
     private final String value;
     private final String abbreviation;
 
+
     public static @NonNull AttributeValue create(
-            AttributeKey.@NonNull AttributeKeyId keyId,
+            @NonNull AttributeKeyId keyId,
             @NonNull String value,
             @Nullable String abbreviation
     ) {
         validateValue(value);
         validateAbbreviation(abbreviation);
-
-        return new AttributeValue(null, keyId, value, abbreviation);
+        return new AttributeValue(AttributeValueId.generate(), keyId, value, abbreviation);
     }
 
     public static @NonNull AttributeValue reconstitute(
             @NonNull AttributeValueId id,
-            AttributeKey.@NonNull AttributeKeyId keyId,
+            @NonNull AttributeKeyId keyId,
             @NonNull String value,
             @Nullable String abbreviation
     ) {

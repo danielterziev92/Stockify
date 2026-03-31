@@ -1,96 +1,146 @@
 package com.stockify.catalog.domain.product;
 
+import com.stockify.catalog.domain.product.event.AttributeEvent;
 import com.stockify.catalog.domain.product.rule.AttributeRule;
+import com.stockify.catalog.domain.product.vo.AttributeKeyId;
+import com.stockify.catalog.domain.product.vo.AttributeKeyName;
+import com.stockify.catalog.domain.product.vo.AttributeValueId;
 import com.stockify.catalog.shared.exception.EntityNotFoundException;
 import com.stockify.catalog.shared.exception.InvalidValueException;
 import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
-import org.jmolecules.ddd.types.Identifier;
+import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 @Getter
-public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKey.AttributeKeyId> {
-
-    public record AttributeKeyId(Long value) implements Identifier {
-    }
+public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKeyId> {
 
     private final AttributeKeyId id;
-    private String name;
-    private final Set<AttributeValue> values;
+    private AttributeKeyName name;
+    private final List<AttributeValue> values;
 
-    private AttributeKey(AttributeKeyId id, String name) {
+    private final List<DomainEvent> events;
+
+    private AttributeKey(AttributeKeyId id, AttributeKeyName name) {
         this.id = id;
         this.name = name;
-        this.values = new HashSet<>();
+        this.values = new ArrayList<>();
+        this.events = new ArrayList<>();
     }
 
-    public static @NonNull AttributeKey create(@Nonnull String name) {
-        validateName(name);
+    public static @NonNull AttributeKey create(@Nonnull AttributeKeyName name) {
+        AttributeKey key = new AttributeKey(AttributeKeyId.generate(), name);
+        key.events.add(new AttributeEvent.KeyCreated(key.id, name.value()));
 
-        return new AttributeKey(null, name);
+        return key;
     }
 
     public static @NonNull AttributeKey reconstitute(
             @NonNull AttributeKeyId id,
-            @NonNull String name,
-            @NonNull Set<AttributeValue> values
+            @NonNull AttributeKeyName name,
+            @NonNull List<AttributeValue> values
     ) {
-        AttributeKey attributeKey = new AttributeKey(id, name);
-        attributeKey.values.addAll(values);
-        return attributeKey;
+        AttributeKey key = new AttributeKey(id, name);
+        key.values.addAll(values);
+
+        return key;
     }
 
-    public void changeName(@NonNull String name) {
-        validateName(name);
-        this.name = name;
+    public void rename(@NonNull AttributeKeyName newName) {
+        if (this.name.equals(newName)) return;
+
+        AttributeKeyName oldName = this.name;
+        this.name = newName;
+        this.events.add(new AttributeEvent.KeyRenamed(this.id, oldName.value(), newName.value()));
     }
 
-    public void addValue(@NonNull AttributeValue value) {
-        boolean duplicate = this.values.stream()
-                .anyMatch(v -> v.getValue().equalsIgnoreCase(value.getValue()));
+    public @NonNull AttributeValueId addValue(@NonNull String value, @Nullable String abbreviation) {
+        if (this.isDuplicateValue(value))
+            throw new InvalidValueException(AttributeRule.AttributeValue.Value.DUPLICATE_MSG, value);
 
-        if (duplicate)
-            throw new InvalidValueException(AttributeRule.AttributeValue.Value.DUPLICATE_MSG, value.getValue());
+        if (abbreviation != null && this.isDuplicateAbbreviation(abbreviation))
+            throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.DUPLICATE_MSG, abbreviation);
 
-        this.values.add(value);
+        AttributeValue newValue = AttributeValue.create(id, value, abbreviation);
+        this.values.add(newValue);
+        this.events.add(new AttributeEvent.ValueAdded(id, newValue.getId(), value, abbreviation));
+
+        return newValue.getId();
     }
 
-    public void updateValue(
-            @NonNull AttributeValue existingValue,
+    public void removeValue(@NonNull AttributeValueId valueId) {
+        AttributeValue toRemove = this.findValue(valueId);
+        this.values.remove(toRemove);
+        this.events.add(new AttributeEvent.ValueRemoved(id, valueId));
+    }
+
+    public @NonNull AttributeValueId replaceValue(
+            @NonNull AttributeValueId oldValueId,
             @NonNull String newValue,
             @Nullable String newAbbreviation
     ) {
-        boolean duplicate = this.values.stream()
-                .filter(v -> !v.getId().equals(existingValue.getId()))
-                .anyMatch(v -> v.getValue().equalsIgnoreCase(newValue));
+        AttributeValue old = this.findValue(oldValueId);
 
-        if (duplicate)
+        boolean valueChanges = !old.getValue().equalsIgnoreCase(newValue);
+        if (valueChanges && this.isDuplicateValue(newValue))
             throw new InvalidValueException(AttributeRule.AttributeValue.Value.DUPLICATE_MSG, newValue);
 
-        this.values.remove(existingValue);
-        this.values.add(AttributeValue.create(existingValue.getKeyId(), newValue, newAbbreviation));
+        boolean abbrChanges = !java.util.Objects.equals(old.getAbbreviation(), newAbbreviation);
+        if (abbrChanges && newAbbreviation != null && isDuplicateAbbreviation(newAbbreviation))
+            throw new InvalidValueException(AttributeRule.AttributeValue.Abbreviation.DUPLICATE_MSG, newAbbreviation);
+
+        this.values.remove(old);
+        AttributeValue created = AttributeValue.create(id, newValue, newAbbreviation);
+        this.values.add(created);
+
+        this.events.add(new AttributeEvent.AbbreviationChanged(
+                id,
+                oldValueId,
+                created.getId(),
+                newValue,
+                old.getAbbreviation(),
+                newAbbreviation
+        ));
+
+        return created.getId();
     }
 
-    public void removeValue(@NonNull AttributeValue value) {
-        if (!this.values.contains(value))
-            throw new EntityNotFoundException(
-                    AttributeRule.Generic.NOT_FOUND_MSG,
-                    AttributeValue.class.getSimpleName(),
-                    value.getId().value()
-            );
-
-        this.values.remove(value);
+    public boolean hasValue(@NonNull AttributeValueId valueId) {
+        return values.stream().anyMatch(v -> v.getId().equals(valueId));
     }
 
-    private static void validateName(@NonNull String name) {
-        if (name.isBlank()) throw new InvalidValueException(AttributeRule.AttributeKey.Name.BLANK_MSG);
+    public @NonNull List<DomainEvent> domainEvents() {
+        return Collections.unmodifiableList(events);
+    }
 
-        if (name.length() > AttributeRule.AttributeKey.Name.MAX_LENGTH)
-            throw new InvalidValueException(AttributeRule.AttributeKey.Name.MAX_LENGTH_MSG, name.length());
+    public void clearEvents() {
+        this.events.clear();
+    }
+
+    private boolean isDuplicateValue(@NonNull String value) {
+        return values.stream()
+                .anyMatch(v -> v.getValue().equalsIgnoreCase(value));
+    }
+
+    private boolean isDuplicateAbbreviation(@NonNull String abbreviation) {
+        return values.stream()
+                .anyMatch(v -> abbreviation.equalsIgnoreCase(v.getAbbreviation()));
+    }
+
+    private @NonNull AttributeValue findValue(@NonNull AttributeValueId valueId) {
+        return values.stream()
+                .filter(v -> v.getId().equals(valueId))
+                .findFirst()
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                AttributeRule.AttributeValue.Generic.NOT_FOUND_MSG,
+                                valueId.value().toString()));
     }
 }

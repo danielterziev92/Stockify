@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 public final class AttributeRule {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static final class Generic {
-        public static final String NOT_FOUND_MSG = "attribute.generic.not-found";
-    }
-
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class AttributeKey {
+
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        public static final class Generic {
+            public static final String NOT_FOUND_MSG = "attribute.key.generic.not-found";
+        }
 
         @NoArgsConstructor(access = AccessLevel.PRIVATE)
         public static final class Name {
@@ -20,11 +20,17 @@ public final class AttributeRule {
 
             public static final String BLANK_MSG = "attribute.key.name.blank";
             public static final String MAX_LENGTH_MSG = "attribute.key.name.too-long";
+            public static final String DUPLICATE_MSG = "attribute.key.name.duplicate";
         }
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class AttributeValue {
+
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        public static final class Generic {
+            public static final String NOT_FOUND_MSG = "attribute.value.generic.not-found";
+        }
 
         @NoArgsConstructor(access = AccessLevel.PRIVATE)
         public static final class Value {
@@ -41,6 +47,7 @@ public final class AttributeRule {
 
             public static final String BLANK_MSG = "attribute.value.abbreviation.blank";
             public static final String MAX_LENGTH_MSG = "attribute.value.abbreviation.too-long";
+            public static final String DUPLICATE_MSG = "attribute.value.abbreviation.duplicate";
         }
     }
 }
