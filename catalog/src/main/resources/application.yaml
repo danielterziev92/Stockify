@@ -6,13 +6,6 @@ spring:
     username: postgres
     password: P@ssword1
     driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
   data:
     web:
       pageable:
@@ -32,18 +25,18 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     validate-on-migrate: true
-  graphql:
-    http:
-      path: /graphql
-    graphiql:
-      enabled: true
-      path: /graphiql
-    schema:
-      locations: classpath:graphql/**/
-      file-extensions: .graphqls,.gqls
+#  graphql:
+#    http:
+#      path: /graphql
+#    graphiql:
+#      enabled: true
+#      path: /graphiql
+#    schema:
+#      locations: classpath:graphql/**/
+#      file-extensions: .graphqls,.gqls
 
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+#springdoc:
+#  api-docs:
+#    path: /api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html

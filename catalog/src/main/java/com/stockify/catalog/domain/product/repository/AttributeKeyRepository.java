@@ -3,14 +3,13 @@ package com.stockify.catalog.domain.product.repository;
 import com.stockify.catalog.domain.product.AttributeKey;
 import com.stockify.catalog.domain.product.vo.AttributeKeyId;
 import com.stockify.catalog.domain.product.vo.AttributeValueId;
+import org.jmolecules.ddd.types.Repository;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface AttributeKeyRepository extends org.jmolecules.ddd.types.Repository<AttributeKey, AttributeKeyId> {
+public interface AttributeKeyRepository extends Repository<AttributeKey, AttributeKeyId> {
 
     List<AttributeKey> findAll();
 
