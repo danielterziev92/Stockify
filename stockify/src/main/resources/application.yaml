@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: stockify
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stockify
+    username: postgres
+    password: P@ssword1
+    driver-class-name: org.postgresql.Driver
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        max-page-size: 100
+  threads:
+    virtual:
+      enabled: true
+  mvc:
+    apiversion:
+      default: "1.0"
+      supported: "1.0"
+      use:
+        header: "X-API-Version"
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true

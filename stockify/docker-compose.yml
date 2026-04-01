@@ -3,11 +3,11 @@ version: '3.8'
 services:
   database:
     image: postgres:17.7-alpine
-    container_name: catalog-db
+    container_name: stockify
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: P@ssword1
-      POSTGRES_DB: catalog
+      POSTGRES_DB: stockify
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
