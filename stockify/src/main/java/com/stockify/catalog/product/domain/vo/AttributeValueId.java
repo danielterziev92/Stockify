@@ -1,4 +1,4 @@
-package com.stockify.catalog.product.vo;
+package com.stockify.catalog.product.domain.vo;
 
 import org.jmolecules.ddd.types.Identifier;
 import org.jspecify.annotations.NonNull;

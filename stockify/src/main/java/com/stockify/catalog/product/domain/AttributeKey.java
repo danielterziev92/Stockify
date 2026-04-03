@@ -1,10 +1,10 @@
-package com.stockify.catalog.product;
+package com.stockify.catalog.product.domain;
 
 import com.stockify.catalog.exception.InvalidValueException;
-import com.stockify.catalog.product.event.AttributeEvent;
-import com.stockify.catalog.product.rule.AttributeRule;
-import com.stockify.catalog.product.vo.AttributeKeyId;
-import com.stockify.catalog.product.vo.AttributeValueId;
+import com.stockify.catalog.product.domain.event.AttributeEvent;
+import com.stockify.catalog.product.domain.rule.AttributeRule;
+import com.stockify.catalog.product.domain.vo.AttributeKeyId;
+import com.stockify.catalog.product.domain.vo.AttributeValueId;
 import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;

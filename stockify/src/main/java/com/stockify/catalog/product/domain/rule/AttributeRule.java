@@ -1,4 +1,4 @@
-package com.stockify.catalog.product.rule;
+package com.stockify.catalog.product.domain.rule;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
-package com.stockify.catalog.product.event;
+package com.stockify.catalog.product.domain.event;
 
-import com.stockify.catalog.product.vo.AttributeKeyId;
-import com.stockify.catalog.product.vo.AttributeValueId;
+import com.stockify.catalog.product.domain.vo.AttributeKeyId;
+import com.stockify.catalog.product.domain.vo.AttributeValueId;
 import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
