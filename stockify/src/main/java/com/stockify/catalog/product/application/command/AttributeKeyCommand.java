@@ -26,7 +26,7 @@ public sealed interface AttributeKeyCommand permits
     record AddValue(
             @NonNull AttributeKeyId keyId,
             @NonNull String value,
-            @NonNull String abbreviation) implements AttributeKeyCommand {
+            @Nullable String abbreviation) implements AttributeKeyCommand {
     }
 
     record RemoveValue(@NonNull AttributeKeyId keyId, @NonNull AttributeKeyId valueId) implements AttributeKeyCommand {
