@@ -76,6 +76,32 @@
             <artifactId>spring-boot-starter-graphql</artifactId>
         </dependency>
 
+        <!-- jMolecules -->
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-ddd</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-events</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-cqrs-architecture</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules</groupId>
+            <artifactId>jmolecules-layered-architecture</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules.integrations</groupId>
+            <artifactId>jmolecules-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jmolecules.integrations</groupId>
+            <artifactId>jmolecules-starter-ddd</artifactId>
+        </dependency>
+
         <!-- SQL Database -->
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -106,16 +132,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
-        </dependency>
-
-        <!-- Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
         <!-- Lombok -->
@@ -166,6 +182,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <jvmArguments>--enable-preview</jvmArguments>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -185,6 +202,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <enablePreview>true</enablePreview>
                             <annotationProcessorPaths>
                                 <path>
                                     <groupId>org.projectlombok</groupId>
@@ -214,6 +232,11 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <enablePreview>true</enablePreview>
+                </configuration>
             </plugin>
         </plugins>
     </build>
