@@ -10,12 +10,14 @@ import lombok.experimental.FieldNameConstants;
 import org.jmolecules.ddd.types.Entity;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.annotation.Id;
 
 @Getter
 @FieldNameConstants
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AttributeValue implements Entity<AttributeKey, AttributeValueId> {
 
+    @Id
     private final AttributeValueId id;
     private final String value;
     private final String abbreviation;

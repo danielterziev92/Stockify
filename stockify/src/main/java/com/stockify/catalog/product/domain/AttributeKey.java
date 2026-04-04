@@ -11,17 +11,24 @@ import org.jmolecules.ddd.types.AggregateRoot;
 import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import java.util.*;
 
 
 @Getter
-public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKeyId> {
+public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKeyId>, Persistable<AttributeKeyId> {
 
+    @Id
     private final AttributeKeyId id;
     private String name;
+    @MappedCollection(idColumn = "key_id")
     private final Set<AttributeValue> values;
 
+    @Transient
     private final List<DomainEvent> events;
 
     private AttributeKey(AttributeKeyId id, String name) {
@@ -138,6 +145,11 @@ public class AttributeKey implements AggregateRoot<AttributeKey, AttributeKeyId>
 
     public void clearEvents() {
         this.events.clear();
+    }
+
+    @Override
+    public boolean isNew() {
+        return this.events.getFirst() instanceof AttributeEvent.KeyCreated;
     }
 
     private static void validateName(@NonNull String name) throws InvalidValueException {

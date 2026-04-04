@@ -1,0 +1,34 @@
+type AttributeKey {
+    id: ID!
+    name: String!
+    values: [AttributeValue!]!
+}
+
+type AttributeValue {
+    id: ID!
+    value: String!
+    abbreviation: String
+}
+
+input AttributeValueInput {
+    value: String!
+    abbreviation: String
+}
+
+type Query {
+    attributeKeys: [AttributeKey!]!
+    attributeKey(id: ID!): AttributeKey
+    searchAttributeKeys(name: String!): [AttributeKey!]!
+}
+
+type Mutation {
+    createAttributeKey(name: String!): AttributeKey!
+    createAttributeKeyWithValues(name: String!, values: [AttributeValueInput!]!): AttributeKey!
+    renameAttributeKey(id: ID!, newName: String!): AttributeKey!
+    deleteAttributeKey(id: ID!): Boolean!
+    addAttributeValue(keyId: ID!, value: String!, abbreviation: String): AttributeKey!
+    removeAttributeValue(keyId: ID!, valueId: ID!): AttributeKey!
+    replaceAttributeValue(keyId: ID!, oldValueId: ID!, newValueId: ID!): AttributeKey!
+    changeAttributeValue(keyId: ID!, valueId: ID!, newValue: String!): AttributeKey!
+    changeAttributeAbbreviation(keyId: ID!, valueId: ID!, newAbbreviation: String): AttributeKey!
+}

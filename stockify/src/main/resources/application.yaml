@@ -25,3 +25,24 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     validate-on-migrate: true
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+
+logging:
+  level:
+    # SQL заявки
+    org.springframework.jdbc.core: TRACE
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+
+    # Virtual threads
+    org.springframework.web: DEBUG
+    org.springframework.core.task: DEBUG
+
+    # jOOQ
+    org.jooq: DEBUG
+    org.jooq.tools.LoggerListener: DEBUG
+
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
