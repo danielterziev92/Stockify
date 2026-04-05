@@ -1,4 +1,4 @@
-import { hashCode} from "../utils/hashCode";
+import { hashCode } from "../utils";
 
 export abstract class Entity {
     protected readonly id: string;
