@@ -2,7 +2,7 @@ import { Result } from "../../shared/core";
 import { validateUtils } from "../../shared/utils";
 import { ValueObject } from "../../shared/domain";
 
-export default class Email extends ValueObject<string> {
+class Email extends ValueObject<string> {
     static readonly CANT_BE_EMPTY = "Email can't be empty";
     static readonly INVALID_EMAIL_ERROR = "Invalid email format";
 
@@ -27,3 +27,5 @@ export default class Email extends ValueObject<string> {
     }
 
 }
+
+export default Email;

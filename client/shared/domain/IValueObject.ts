@@ -1,5 +1,7 @@
-export interface IValueObject<T> {
+interface IValueObject<T> {
     getValue(): T;
     equals(other: IValueObject<T>): boolean;
     toString(): string;
 }
+
+export default IValueObject;

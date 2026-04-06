@@ -1,6 +1,6 @@
 import { hashCode } from "../utils";
 
-export abstract class Entity {
+abstract class Entity {
     protected readonly id: string;
 
     constructor(id: string) {
@@ -15,3 +15,5 @@ export abstract class Entity {
         return this.hashCode() === other.hashCode();
     }
 }
+
+export default Entity;

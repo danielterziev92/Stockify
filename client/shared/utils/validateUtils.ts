@@ -9,7 +9,7 @@ const isvalidCardNumber = (value: string) => /^\d{3}-\d{2}-\d{4}$/.test(value);
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidPassword = (value: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value);
 
-export const validateUtils = {
+export default {
     isOnlyLetters,
     isValidPhoneNumber,
     isValidUsername,

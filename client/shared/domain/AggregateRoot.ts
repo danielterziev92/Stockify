@@ -1,7 +1,7 @@
 import { DomainEvent } from "../events";
 import { Entity } from "./Entitiy";
 
-export abstract class AggregateRoot extends Entity{
+abstract class AggregateRoot extends Entity{
     private _domainEvents: DomainEvent[] = [];
 
     get domainEvents(): DomainEvent[] {
@@ -20,3 +20,5 @@ export abstract class AggregateRoot extends Entity{
         return this._domainEvents.length > 0;
     }
 }
+
+export default AggregateRoot;

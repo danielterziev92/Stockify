@@ -1,8 +1,8 @@
-import { ValueObject } from "../../shared/domain";
 import { Result } from "../../shared/core";
 import { validateUtils } from "../../shared/utils";
+import { ValueObject } from "../../shared/domain";
 
-export default class PhoneNumber extends ValueObject<string> {
+class PhoneNumber extends ValueObject<string> {
     static readonly CANT_BE_EMPTY = "PhoneNumber can't be empty";
     static readonly INVALID_PHONE_NUMBER_ERROR = "Invalid phone number format";
 
@@ -26,3 +26,5 @@ export default class PhoneNumber extends ValueObject<string> {
         }
     }
 }
+
+export default PhoneNumber;

@@ -1,4 +1,4 @@
-export class Result<T> {
+class Result<T> {
     private readonly _isSuccess: boolean;
     private readonly _error: string;
     private readonly _value: T;
@@ -41,3 +41,5 @@ export class Result<T> {
         return this._error;
     }
 }
+
+export default Result;

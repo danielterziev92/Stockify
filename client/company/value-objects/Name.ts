@@ -2,7 +2,7 @@ import { Result} from "../../shared/core";
 import { ValueObject } from "../../shared/domain";
 import { validateUtils } from "../../shared/utils";
 
-export default class Name extends ValueObject<string> {
+class Name extends ValueObject<string> {
     static readonly CANT_BE_EMPTY = "Name can't be empty";
     static readonly MAX_LENGTH = 20;
     static readonly MIN_LENGTH = 2;
@@ -36,3 +36,5 @@ export default class Name extends ValueObject<string> {
     }
 
 }
+
+export default Name;

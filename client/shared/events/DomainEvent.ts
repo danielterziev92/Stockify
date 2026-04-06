@@ -1,4 +1,4 @@
-export abstract class DomainEvent {
+abstract class DomainEvent {
     public readonly eventId: string;
     public readonly occurredOn: Date;
     public readonly eventVersion: number;
@@ -32,3 +32,5 @@ export abstract class DomainEvent {
     }
 
 }
+
+export default DomainEvent;

@@ -1,4 +1,4 @@
-export abstract class ValueObject<T> {
+abstract class ValueObject<T> {
     protected value: T;
 
     constructor(value: T) {
@@ -23,3 +23,5 @@ export abstract class ValueObject<T> {
         return String(this.value);
     }
 }
+
+export default ValueObject;

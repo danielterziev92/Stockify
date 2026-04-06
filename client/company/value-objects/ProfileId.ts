@@ -1,8 +1,8 @@
-import { ValueObject} from "../../shared/domain";
 import { Result } from "../../shared/core";
+import { ValueObject } from "../../shared/domain";
 import { generateId } from "../../shared/utils";
 
-export default class ProfileId extends ValueObject<string> {
+class ProfileId extends ValueObject<string> {
     static readonly CANT_BE_EMPTY = "ProfileId can't be empty";
 
     protected validate(value: string): void {
@@ -19,3 +19,5 @@ export default class ProfileId extends ValueObject<string> {
         }
     }
 }
+
+export default ProfileId;
