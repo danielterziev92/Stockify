@@ -1,6 +1,8 @@
 spring:
   application:
     name: catalog
+  main:
+    web-application-type: none
   threads:
     virtual:
       enabled: true
@@ -15,11 +17,34 @@ spring:
     baseline-on-migrate: true
     validate-on-migrate: true
   data:
-    web:
-      pageable:
-        one-indexed-parameters: true
-        max-page-size: 100
-  graphql:
-    graphiql:
-      enabled: true
-      path: /graphiql
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:9094
+    admin:
+      fail-fast: false
+      properties:
+        request.timeout.ms: 5000
+        default.api.timeout.ms: 5000
+        retries: 0
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+  grpc:
+    server:
+      port: 9090
+
+
+logging:
+  level:
+    org.springframework.jdbc.core: TRACE
+    org.jooq: DEBUG
+    org.jooq.tools.LoggerListener: DEBUG
+    com.stockify.catalog: DEBUG
+    io.grpc: DEBUG
+  file:
+    name: catalog/logs/error.log
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
