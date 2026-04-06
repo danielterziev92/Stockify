@@ -2,7 +2,7 @@ import { ValueObject} from "../../shared/domain";
 import { Result } from "../../shared/core";
 import { generateId } from "../../shared/utils";
 
-export class ProfileId extends ValueObject<string> {
+export default class ProfileId extends ValueObject<string> {
     static readonly CANT_BE_EMPTY = "ProfileId can't be empty";
 
     protected validate(value: string): void {
