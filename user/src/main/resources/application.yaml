@@ -28,17 +28,6 @@ spring:
   grpc:
     server:
       port: 9091
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: dhs.team3@gmail.com
-    password: 'jcsc liei ycjz zunu'
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
 app:
   jwt:
