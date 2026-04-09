@@ -4,6 +4,8 @@ import ProfileId from "./ProfileId";
 import Email from "./Email";
 import UserId from "./UserId";
 import Password from "./Password";
+import TokenId from "./TokenId";
+import Token from "./Token";
 
 export {
     Name,
@@ -12,4 +14,7 @@ export {
     Email,
     UserId,
     Password,
+    Token,
+    TokenId,
+
 }
