@@ -6,6 +6,7 @@ import UserId from "./UserId";
 import Password from "./Password";
 import TokenId from "./TokenId";
 import Token from "./Token";
+import CountryId from "./CountryId";
 
 export {
     Name,
@@ -16,5 +17,5 @@ export {
     Password,
     Token,
     TokenId,
-
+    CountryId
 }
