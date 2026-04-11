@@ -1,6 +1,7 @@
 package com.stockify.tenancy.domain.user;
 
 import com.stockify.shared.exception.BusinessRuleException;
+import org.jmolecules.ddd.types.ValueObject;
 
 /**
  * Represents the lifecycle status of a {@link User} account.
@@ -9,7 +10,7 @@ import com.stockify.shared.exception.BusinessRuleException;
  * guard logic inline — callers simply invoke {@code user.getStatus().requiredActive()}
  * without needing to branch on the status themselves.
  */
-public enum UserStatus {
+public enum UserStatus implements ValueObject {
 
     /**
      * The account is fully active and all operations are permitted.

@@ -1,6 +1,6 @@
 package com.stockify.tenancy.domain.user;
 
-import com.stockify.shared.exception.BusinessRuleException;
+import com.stockify.shared.exception.InvalidValueException;
 import org.jmolecules.ddd.types.ValueObject;
 import org.jspecify.annotations.NonNull;
 
@@ -9,7 +9,7 @@ import org.jspecify.annotations.NonNull;
  *
  * <p>On construction the raw input is trimmed and lower-cased, then validated
  * against {@link UserRule.Email#PATTERN}. Any violation throws a
- * {@link BusinessRuleException} with the appropriate message code.
+ * {@link InvalidValueException} with the appropriate message code.
  *
  * @param value the normalized (trimmed, lower-cased) email address string
  */
@@ -18,18 +18,18 @@ public record Email(@NonNull String value) implements ValueObject {
     /**
      * Compact constructor — normalizes and validates the email address.
      *
-     * @throws BusinessRuleException if {@code value} is blank, exceeds
+     * @throws InvalidValueException if {@code value} is blank, exceeds
      *                               {@link UserRule.Email#MAX_LENGTH} characters,
      *                               or does not match {@link UserRule.Email#PATTERN}
      */
     public Email {
         value = value.trim().toLowerCase();
 
-        if (value.isBlank()) throw new BusinessRuleException(UserRule.Email.BLANK_MSG);
+        if (value.isBlank()) throw new InvalidValueException(UserRule.Email.BLANK_MSG);
         if (value.length() > UserRule.Email.MAX_LENGTH)
-            throw new BusinessRuleException(UserRule.Email.LENGTH_MSG, value);
+            throw new InvalidValueException(UserRule.Email.LENGTH_MSG, value);
         if (!UserRule.Email.PATTERN.matcher(value).matches())
-            throw new BusinessRuleException(UserRule.Email.INVALID_MSG, value);
+            throw new InvalidValueException(UserRule.Email.INVALID_MSG, value);
     }
 
     /**
@@ -38,7 +38,7 @@ public record Email(@NonNull String value) implements ValueObject {
      * @param value the raw email address input
      * @return a new, validated {@code Email} instance
      */
-    public @NonNull Email of(@NonNull String value) {
+    public static @NonNull Email of(@NonNull String value) {
         return new Email(value);
     }
 }

@@ -20,6 +20,7 @@ public final class UserRule {
     /**
      * Rules governing the structure and format of a user's email address.
      */
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Email {
         /**
          * Maximum allowed length of an email address in characters.

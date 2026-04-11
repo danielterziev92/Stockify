@@ -127,7 +127,7 @@ public class User implements AggregateRoot<User, UserId> {
         PasswordHash newPasswordHashVO = new PasswordHash(newPasswordHash);
         if (this.passwordHash.equals(newPasswordHashVO)) return;
 
-        this.passwordHash = new PasswordHash(newPasswordHash);
+        this.passwordHash = newPasswordHashVO;
 
         this.events.add(new UserEvent.PasswordChanged(this.email));
     }
