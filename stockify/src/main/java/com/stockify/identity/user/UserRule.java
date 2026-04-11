@@ -1,4 +1,4 @@
-package com.stockify.tenancy.domain.user;
+package com.stockify.identity.user;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.util.regex.Pattern;
 
 /**
- * Compile-time constants governing the behavior of the {@link com.stockify.tenancy.domain.user.User} aggregate.
+ * Compile-time constants governing the behavior of the {@link User} aggregate.
  *
  * <p>Grouped into nested classes by concern so that call-sites are self-documenting:
  * {@code UserRule.PasswordHash.BCRYPT_LENGTH} is unambiguous,

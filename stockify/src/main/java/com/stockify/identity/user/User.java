@@ -1,4 +1,4 @@
-package com.stockify.tenancy.domain.user;
+package com.stockify.identity.user;
 
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;

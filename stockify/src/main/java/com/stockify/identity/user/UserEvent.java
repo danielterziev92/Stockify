@@ -1,4 +1,4 @@
-package com.stockify.tenancy.domain.user;
+package com.stockify.identity.user;
 
 import jakarta.annotation.Nonnull;
 import org.jmolecules.event.types.DomainEvent;
