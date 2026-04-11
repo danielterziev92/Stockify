@@ -8,14 +8,15 @@ package com.stockify.shared.exception;
  * attempting to activate an already-active account, or placing an order when
  * stock is insufficient.
  */
-public class BusinessRuleException extends RuntimeException {
+public class BusinessRuleException extends DomainException {
 
     /**
-     * Constructs a new exception with the given detail message.
+     * Constructs a new exception with the given message code and optional arguments.
      *
-     * @param message a human-readable description of the violated business rule
+     * @param messageCode the key used to look up the localized error message template
+     * @param args        optional arguments interpolated into the message template
      */
-    public BusinessRuleException(String message) {
-        super(message);
+    public BusinessRuleException(String messageCode, Object... args) {
+        super(messageCode, args);
     }
 }
