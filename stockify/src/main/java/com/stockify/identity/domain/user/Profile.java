@@ -128,13 +128,14 @@ public class Profile implements AggregateRoot<Profile, UserId> {
      *
      * @param newPhoneNumber the new phone number, must not be {@code null}
      */
-    public void changePhoneNumber(@NonNull PhoneNumber newPhoneNumber) {
-        if (this.phoneNumber.equals(newPhoneNumber)) return;
+    public void changePhoneNumber(@NonNull String newPhoneNumber) {
+        PhoneNumber newPhoneNumberVO = new PhoneNumber(newPhoneNumber);
+        if (this.phoneNumber.equals(newPhoneNumberVO)) return;
 
         PhoneNumber oldPhoneNumber = this.phoneNumber;
-        this.phoneNumber = newPhoneNumber;
+        this.phoneNumber = newPhoneNumberVO;
 
-        this.events.add(new ProfileEvent.PhoneNumberChanged(this.id, oldPhoneNumber, newPhoneNumber));
+        this.events.add(new ProfileEvent.PhoneNumberChanged(this.id, oldPhoneNumber, newPhoneNumberVO));
     }
 
     /**

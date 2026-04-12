@@ -3,9 +3,15 @@ package com.stockify.identity.domain.user;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Validation constants for {@link Profile} aggregate fields.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProfileRule {
 
+    /**
+     * Constraints for {@link PersonName} value objects (first name, last name).
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class PersonName {
         public static final int MIN_LENGTH = 2;
