@@ -1,4 +1,4 @@
-package com.stockify.identity.user;
+package com.stockify.identity.domain.user;
 
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
@@ -19,16 +19,16 @@ import java.util.List;
 public class Profile implements AggregateRoot<Profile, UserId> {
 
     private final UserId id;
-    private String firstName;
-    private String lastName;
+    private PersonName firstName;
+    private PersonName lastName;
     private PhoneNumber phoneNumber;
 
     private final List<ProfileEvent> events;
 
     private Profile(
             @NonNull UserId id,
-            @NonNull String firstName,
-            @NonNull String lastName,
+            @NonNull PersonName firstName,
+            @NonNull PersonName lastName,
             @NonNull PhoneNumber phoneNumber
     ) {
         this.id = id;
@@ -51,10 +51,13 @@ public class Profile implements AggregateRoot<Profile, UserId> {
             @NonNull UserId id,
             @NonNull String firstName,
             @NonNull String lastName,
-            @NonNull PhoneNumber phoneNumber
+            @NonNull String phoneNumber
     ) {
-        Profile profile = new Profile(id, firstName, lastName, phoneNumber);
-        profile.events.add(new ProfileEvent.Created(id, firstName, lastName, phoneNumber));
+        PhoneNumber phoneNumberVO = new PhoneNumber(phoneNumber);
+        PersonName firstNameVO = new PersonName(firstName);
+        PersonName lastNameVO = new PersonName(lastName);
+        Profile profile = new Profile(id, firstNameVO, lastNameVO, phoneNumberVO);
+        profile.events.add(new ProfileEvent.Created(id, firstNameVO, lastNameVO, phoneNumberVO));
 
         return profile;
     }
@@ -74,8 +77,8 @@ public class Profile implements AggregateRoot<Profile, UserId> {
      */
     public static @NonNull Profile reconstitute(
             @NonNull UserId id,
-            @NonNull String firstName,
-            @NonNull String lastName,
+            @NonNull PersonName firstName,
+            @NonNull PersonName lastName,
             @NonNull PhoneNumber phoneNumber
     ) {
         return new Profile(id, firstName, lastName, phoneNumber);
@@ -90,29 +93,31 @@ public class Profile implements AggregateRoot<Profile, UserId> {
      * @param newFirstName the new first name, must not be {@code null}
      */
     public void changeFirstName(@NonNull String newFirstName) {
-        if (this.firstName.equals(newFirstName)) return;
+        PersonName newFirstNameVO = new PersonName(newFirstName);
+        if (this.firstName.equals(newFirstNameVO)) return;
 
-        String oldFirstName = this.firstName;
-        this.firstName = newFirstName;
+        PersonName oldFirstName = this.firstName;
+        this.firstName = newFirstNameVO;
 
-        this.events.add(new ProfileEvent.FirstNameChanged(this.id, oldFirstName, newFirstName));
+        this.events.add(new ProfileEvent.FirstNameChanged(this.id, oldFirstName, newFirstNameVO));
     }
 
     /**
      * Changes the last name of this profile.
      * <p>
-     * No-ops if the new value is identical to the current one. Otherwise updates
+     * No-ops if the new value is identical to the current one. Otherwise, updates
      * the field and records a {@link ProfileEvent.LastNameChanged} event.
      *
      * @param newLastName the new last name, must not be {@code null}
      */
     public void changeLastName(@NonNull String newLastName) {
-        if (this.lastName.equals(newLastName)) return;
+        PersonName newLastNameVO = new PersonName(newLastName);
+        if (this.lastName.equals(newLastNameVO)) return;
 
-        String oldLastName = this.lastName;
-        this.lastName = newLastName;
+        PersonName oldLastName = this.lastName;
+        this.lastName = newLastNameVO;
 
-        this.events.add(new ProfileEvent.LastNameChanged(this.id, oldLastName, newLastName));
+        this.events.add(new ProfileEvent.LastNameChanged(this.id, oldLastName, newLastNameVO));
     }
 
     /**

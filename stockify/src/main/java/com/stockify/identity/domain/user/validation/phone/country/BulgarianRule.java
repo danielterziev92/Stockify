@@ -1,6 +1,6 @@
-package com.stockify.identity.user.validation.phone.country;
+package com.stockify.identity.domain.user.validation.phone.country;
 
-import com.stockify.identity.user.validation.phone.CountryRule;
+import com.stockify.identity.domain.user.validation.phone.CountryRule;
 import org.jspecify.annotations.NonNull;
 
 import java.util.regex.Pattern;

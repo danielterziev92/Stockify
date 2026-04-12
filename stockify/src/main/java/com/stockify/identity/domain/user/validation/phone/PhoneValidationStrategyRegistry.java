@@ -1,16 +1,11 @@
-package com.stockify.identity.user.validation.phone;
+package com.stockify.identity.domain.user.validation.phone;
 
-import com.stockify.identity.user.validation.phone.country.BulgarianRule;
-import com.stockify.identity.user.validation.phone.country.GermanRule;
 import com.stockify.shared.exception.InvalidValueException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jspecify.annotations.NonNull;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Registry of {@link CountryRule} instances used to validate phone numbers by country.
@@ -31,8 +26,10 @@ public final class PhoneValidationStrategyRegistry {
 
     static {
         Map<String, CountryRule> map = new HashMap<>();
-        map.put(BulgarianRule.INSTANCE.countryCode(), BulgarianRule.INSTANCE);
-        map.put(GermanRule.INSTANCE.countryCode(), GermanRule.INSTANCE);
+
+        ServiceLoader.load(CountryRule.class)
+                .forEach(countryRule -> map.put(countryRule.countryCode(), countryRule));
+
         REGISTRY = Collections.unmodifiableMap(map);
     }
 

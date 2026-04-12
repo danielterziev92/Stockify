@@ -1,4 +1,4 @@
-package com.stockify.identity.user.validation.phone;
+package com.stockify.identity.domain.user.validation.phone;
 
 import com.stockify.shared.exception.InvalidValueException;
 import org.jspecify.annotations.NonNull;

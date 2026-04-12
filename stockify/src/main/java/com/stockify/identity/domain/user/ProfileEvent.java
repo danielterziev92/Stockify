@@ -1,4 +1,4 @@
-package com.stockify.identity.user;
+package com.stockify.identity.domain.user;
 
 import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;
@@ -43,8 +43,8 @@ public sealed interface ProfileEvent extends DomainEvent permits
      */
     record Created(
             @NonNull UserId id,
-            @NonNull String firstName,
-            @NonNull String lastName,
+            @NonNull PersonName firstName,
+            @NonNull PersonName lastName,
             @NonNull PhoneNumber phoneNumber,
             @NonNull Instant occurredAt
     ) implements ProfileEvent {
@@ -53,8 +53,8 @@ public sealed interface ProfileEvent extends DomainEvent permits
          */
         public Created(
                 @NonNull UserId id,
-                @NonNull String firstName,
-                @NonNull String lastName,
+                @NonNull PersonName firstName,
+                @NonNull PersonName lastName,
                 @NonNull PhoneNumber phoneNumber) {
             this(id, firstName, lastName, phoneNumber, Instant.now());
         }
@@ -70,8 +70,8 @@ public sealed interface ProfileEvent extends DomainEvent permits
      */
     record FirstNameChanged(
             @NonNull UserId id,
-            @NonNull String oldFirstName,
-            @NonNull String newFirstName,
+            @NonNull PersonName oldFirstName,
+            @NonNull PersonName newFirstName,
             @NonNull Instant occurredAt
     ) implements ProfileEvent {
         /**
@@ -79,9 +79,9 @@ public sealed interface ProfileEvent extends DomainEvent permits
          */
         public FirstNameChanged(
                 @NonNull UserId id,
-                @NonNull String oldFirstName,
-                @NonNull String newFirstName) {
-            this(id, oldFirstName, newFirstName, Instant.now());
+                @NonNull PersonName oldFirstName,
+                @NonNull PersonName newFirstName) {
+            this(id, PersonName, PersonName, Instant.now());
         }
     }
 
@@ -95,8 +95,8 @@ public sealed interface ProfileEvent extends DomainEvent permits
      */
     record LastNameChanged(
             @NonNull UserId id,
-            @NonNull String oldLastName,
-            @NonNull String newLastName,
+            @NonNull PersonName oldLastName,
+            @NonNull PersonName newLastName,
             @NonNull Instant occurredAt
     ) implements ProfileEvent {
         /**
@@ -104,8 +104,8 @@ public sealed interface ProfileEvent extends DomainEvent permits
          */
         public LastNameChanged(
                 @NonNull UserId id,
-                @NonNull String oldLastName,
-                @NonNull String newLastName) {
+                @NonNull PersonName oldLastName,
+                @NonNull PersonName newLastName) {
             this(id, oldLastName, newLastName, Instant.now());
         }
     }
