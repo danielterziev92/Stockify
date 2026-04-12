@@ -81,7 +81,7 @@ public sealed interface ProfileEvent extends DomainEvent permits
                 @NonNull UserId id,
                 @NonNull PersonName oldFirstName,
                 @NonNull PersonName newFirstName) {
-            this(id, PersonName, PersonName, Instant.now());
+            this(id, oldFirstName, newFirstName, Instant.now());
         }
     }
 

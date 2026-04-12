@@ -27,6 +27,7 @@ public final class PhoneValidationStrategyRegistry {
     static {
         Map<String, CountryRule> map = new HashMap<>();
 
+        // Loads all CountryRule SPI implementations and indexes them by calling code.
         ServiceLoader.load(CountryRule.class)
                 .forEach(countryRule -> map.put(countryRule.countryCode(), countryRule));
 
