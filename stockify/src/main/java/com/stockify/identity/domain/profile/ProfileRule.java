@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.user;
+package com.stockify.identity.domain.profile;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

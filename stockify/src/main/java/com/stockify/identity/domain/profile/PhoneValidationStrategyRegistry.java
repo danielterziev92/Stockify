@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.user.validation.phone;
+package com.stockify.identity.domain.profile;
 
 import com.stockify.shared.exception.InvalidValueException;
 import lombok.AccessLevel;

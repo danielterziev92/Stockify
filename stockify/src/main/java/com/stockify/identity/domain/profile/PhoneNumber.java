@@ -1,6 +1,5 @@
-package com.stockify.identity.domain.user;
+package com.stockify.identity.domain.profile;
 
-import com.stockify.identity.domain.user.validation.phone.PhoneValidationStrategyRegistry;
 import org.jmolecules.ddd.types.ValueObject;
 import org.jspecify.annotations.NonNull;
 

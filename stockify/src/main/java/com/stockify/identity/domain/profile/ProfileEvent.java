@@ -1,5 +1,6 @@
-package com.stockify.identity.domain.user;
+package com.stockify.identity.domain.profile;
 
+import com.stockify.identity.domain.user.UserId;
 import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;
 
