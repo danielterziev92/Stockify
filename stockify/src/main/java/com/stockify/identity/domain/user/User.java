@@ -1,5 +1,6 @@
 package com.stockify.identity.domain.user;
 
+import com.stockify.shared.vo.UserId;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.jspecify.annotations.NonNull;

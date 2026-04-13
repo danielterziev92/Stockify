@@ -1,5 +1,6 @@
 package com.stockify.identity.domain.user;
 
+import com.stockify.shared.vo.UserId;
 import jakarta.annotation.Nonnull;
 import org.jmolecules.event.types.DomainEvent;
 import org.jspecify.annotations.NonNull;

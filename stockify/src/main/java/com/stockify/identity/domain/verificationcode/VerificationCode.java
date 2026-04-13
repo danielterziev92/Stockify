@@ -1,7 +1,7 @@
 package com.stockify.identity.domain.verificationcode;
 
-import com.stockify.identity.domain.user.UserId;
 import com.stockify.shared.exception.BusinessRuleException;
+import com.stockify.shared.vo.UserId;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.jspecify.annotations.NonNull;
