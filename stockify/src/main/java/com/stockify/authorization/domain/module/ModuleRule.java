@@ -13,6 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ModuleRule {
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class Generic {
+        public static final String NOT_FOUND_MSG = "module.not-found";
+        public static final String RESOURCE_NOT_FOUND_MSG = "module.resource.not-found";
+    }
+
     /**
      * Constraints for the module's {@code name} field.
      */
