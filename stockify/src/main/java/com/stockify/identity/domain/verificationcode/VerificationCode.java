@@ -26,7 +26,6 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
     private final UserId userId;
     private final VerificationCodeType type;
     private final String code;
-    private final String redirectUrl;
     private final Instant expiresAt;
 
     private final List<VerificationCodeEvent> events;
@@ -36,14 +35,12 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
             @NonNull UserId userId,
             @NonNull VerificationCodeType type,
             @NonNull String code,
-            @NonNull String redirectUrl,
             @NonNull Instant expiresAt
     ) {
         this.id = id;
         this.userId = userId;
         this.type = type;
         this.code = code;
-        this.redirectUrl = redirectUrl;
         this.expiresAt = expiresAt;
         this.events = new ArrayList<>(2);
     }
@@ -61,11 +58,10 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
     public static @NonNull VerificationCode create(@NonNull UserId userId, @NonNull VerificationCodeType type) {
         VerificationCodeId id = VerificationCodeId.generate();
         String code = generateCode();
-        String redirectUrl = getRedirectUrl(type);
         Instant expiresAt = Instant.now().plus(type.expiry());
 
-        VerificationCode verificationCode = new VerificationCode(id, userId, type, code, redirectUrl, expiresAt);
-        verificationCode.events.add(new VerificationCodeEvent.Created(id, userId, type, redirectUrl));
+        VerificationCode verificationCode = new VerificationCode(id, userId, type, code, expiresAt);
+        verificationCode.events.add(new VerificationCodeEvent.Created(id, userId, type, code, expiresAt));
 
         return verificationCode;
     }
@@ -80,7 +76,6 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
      * @param userId      the owning user
      * @param type        the purpose of the code
      * @param code        the persisted code value
-     * @param redirectUrl the persisted redirect URL
      * @param expiresAt   the persisted expiry instant
      * @return the reconstituted verification code, never {@code null}
      */
@@ -89,10 +84,9 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
             @NonNull UserId userId,
             @NonNull VerificationCodeType type,
             @NonNull String code,
-            @NonNull String redirectUrl,
             @NonNull Instant expiresAt
     ) {
-        return new VerificationCode(id, userId, type, code, redirectUrl, expiresAt);
+        return new VerificationCode(id, userId, type, code, expiresAt);
     }
 
     /**
@@ -135,16 +129,5 @@ public class VerificationCode implements AggregateRoot<VerificationCode, Verific
                 "%0" + VerificationCodeRule.Code.LENGTH + "d",
                 new SecureRandom().nextInt(1_000_000)
         );
-    }
-
-    /**
-     * Resolves the redirect URL for the given {@link VerificationCodeType} from {@link VerificationCodeRule.RedirectUrl}.
-     */
-    private static @NonNull String getRedirectUrl(@NonNull VerificationCodeType type) {
-        return switch (type) {
-            case VerificationCodeType.EMAIL_VERIFICATION ->
-                    VerificationCodeRule.RedirectUrl.EMAIL_VERIFICATION_REDIRECT;
-            case VerificationCodeType.PASSWORD_RESET -> VerificationCodeRule.RedirectUrl.PASSWORD_RESET_REDIRECT;
-        };
     }
 }

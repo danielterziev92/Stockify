@@ -48,7 +48,7 @@ public class ModuleResource implements Entity<Module, ModuleResourceId> {
      *
      * @param moduleId the identifier of the owning module; must not be {@code null}
      * @param name     the resource name; must not be blank and must not exceed
-     *                 {@link ModuleRule.Resources#MAX_SIZE} characters after normalization
+     *                 {@link ModuleRule.Resources#MAX_LENGTH} characters after normalization
      * @return a new, valid {@code ModuleResource}
      * @throws com.stockify.shared.exception.InvalidValueException if {@code name} is blank
      *                                                             or exceeds the maximum allowed length
@@ -57,7 +57,7 @@ public class ModuleResource implements Entity<Module, ModuleResourceId> {
         String normalized = normalize(name);
 
         if (normalized.isBlank()) throw new InvalidValueException(ModuleRule.Resources.BLANK_MSG);
-        if (normalized.length() > ModuleRule.Resources.MAX_SIZE)
+        if (normalized.length() > ModuleRule.Resources.MAX_LENGTH)
             throw new InvalidValueException(ModuleRule.Resources.MAX_SIZE_MSG, normalized.length());
 
         return new ModuleResource(ModuleResourceId.generate(), moduleId, normalized);

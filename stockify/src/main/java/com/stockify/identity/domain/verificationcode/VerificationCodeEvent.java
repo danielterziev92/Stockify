@@ -26,17 +26,17 @@ public sealed interface VerificationCodeEvent extends DomainEvent permits
     /**
      * Raised when a new verification code is issued to a user.
      *
-     * @param id          the ID of the new verification code
-     * @param userId      the user the code was issued for
-     * @param type        the purpose of the code
-     * @param redirectUrl the URL the user should be sent to after verification
-     * @param occurredAt  when the code was created
+     * @param id         the ID of the new verification code
+     * @param userId     the user the code was issued for
+     * @param type       the purpose of the code
+     * @param occurredAt when the code was created
      */
     record Created(
             @NonNull VerificationCodeId id,
             @NonNull UserId userId,
             @NonNull VerificationCodeType type,
-            @NonNull String redirectUrl,
+            @NonNull String code,
+            @NonNull Instant expiresAt,
             @NonNull Instant occurredAt
     ) implements VerificationCodeEvent {
 
@@ -47,8 +47,9 @@ public sealed interface VerificationCodeEvent extends DomainEvent permits
                 @NonNull VerificationCodeId id,
                 @NonNull UserId userId,
                 @NonNull VerificationCodeType type,
-                @NonNull String redirectUrl) {
-            this(id, userId, type, redirectUrl, Instant.now());
+                @NonNull String code,
+                @NonNull Instant expiresAt) {
+            this(id, userId, type, code, expiresAt, Instant.now());
         }
     }
 

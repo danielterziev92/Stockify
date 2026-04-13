@@ -1,5 +1,6 @@
 package com.stockify.authorization.domain.module;
 
+import com.stockify.shared.exception.BusinessRuleException;
 import com.stockify.shared.exception.InvalidValueException;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
@@ -109,16 +110,18 @@ public class Module implements AggregateRoot<Module, ModuleId> {
      * does not already exist.
      *
      * <p>The {@code resourceName} is normalised via {@link ModuleResource#normalize}
-     * before the duplicate check. If a resource with that name is already registered,
-     * this method is a no-op.
+     * before the duplicate check. If a resource with that same normalized name is
+     * already registered, a {@link com.stockify.shared.exception.BusinessRuleException}
+     * is thrown.
      *
      * @param resourceName the name of the resource to register; must not be {@code null}
      * @throws com.stockify.shared.exception.InvalidValueException if the normalized name
-     *                                                             is blank or exceeds {@link ModuleRule.Resources#MAX_SIZE} characters
+     *                                                             is blank or exceeds {@link ModuleRule.Resources#MAX_LENGTH} characters
      */
     public void registerResource(@NonNull String resourceName) {
         String normalized = ModuleResource.normalize(resourceName);
-        if (resourceNames.contains(normalized)) return;
+        if (resourceNames.contains(normalized))
+            throw new BusinessRuleException(ModuleRule.Resources.DUPLICATE_MSG, resourceName);
 
         ModuleResource resource = ModuleResource.create(this.id, normalized);
         resources.add(resource);

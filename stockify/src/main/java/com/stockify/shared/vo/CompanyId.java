@@ -1,5 +1,6 @@
 package com.stockify.shared.vo;
 
+import org.jmolecules.ddd.types.Identifier;
 import org.jspecify.annotations.NonNull;
 
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
  *
  * @param value the underlying UUID; must not be {@code null}
  */
-public record CompanyId(@NonNull UUID value) {
+public record CompanyId(@NonNull UUID value) implements Identifier {
 
     /**
      * Creates a new {@code CompanyId} backed by a randomly generated UUID.

@@ -50,7 +50,7 @@ public final class ModuleRule {
         /**
          * Maximum number of resources that may be assigned to a single module.
          */
-        public static final int MAX_SIZE = 100;
+        public static final int MAX_LENGTH = 100;
 
         /**
          * Message key returned when the resource collection is blank/empty.
@@ -58,8 +58,13 @@ public final class ModuleRule {
         public static final String BLANK_MSG = "module.resources.blank";
 
         /**
-         * Message key returned when the resource collection exceeds {@link #MAX_SIZE} entries.
+         * Message key returned when the resource collection exceeds {@link #MAX_LENGTH} entries.
          */
         public static final String MAX_SIZE_MSG = "module.resources.max-size";
+
+        /**
+         * Message key returned when the resource collection contains duplicate entries.
+         */
+        public static final String DUPLICATE_MSG = "module.resources.duplicate";
     }
 }
