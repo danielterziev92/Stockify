@@ -1,3 +1,39 @@
 spring:
   application:
     name: stockify
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI}
+  datasource:
+    url: jdbc:${DATABASE_TYPE}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DATABASE_POOL_SIZE}
+      minimum-idle: ${DATABASE_IDLE_SIZE}
+  jdbc:
+    template:
+      query-timeout: 30s
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        max-page-size: 100
+  threads:
+    virtual:
+      enabled: true
+  modulith:
+    runtime:
+      verification-enabled: true
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
+        use-legacy-structure: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true

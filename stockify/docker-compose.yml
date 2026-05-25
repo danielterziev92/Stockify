@@ -1,15 +1,15 @@
 services:
   database:
     image: postgres:17.7-alpine
-    container_name: stockify_db
+    container_name: database
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
-      - stockify_postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "5432:5432"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
@@ -24,6 +24,50 @@ services:
         max-file: "3"
     networks:
       - app-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.4
+    container_name: keycloak
+    command: start-dev --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:${DATABASE_TYPE}://database:${DATABASE_PORT}/${DATABASE_NAME}
+      KC_DB_USERNAME: ${DATABASE_USERNAME}
+      KC_DB_PASSWORD: ${DATABASE_PASSWORD}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_HTTP_PORT: 8180
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KC_SPI_EMAIL_SENDER_SMTP_HOST: ${SMTP_HOST}
+      KC_SPI_EMAIL_SENDER_SMTP_PORT: ${SMTP_PORT}
+      KC_SPI_EMAIL_SENDER_SMTP_FROM: ${SMTP_FROM}
+      KC_SPI_EMAIL_SENDER_SMTP_AUTH: "true"
+      KC_SPI_EMAIL_SENDER_SMTP_USER: ${SMTP_USER}
+      KC_SPI_EMAIL_SENDER_SMTP_PASSWORD: ${SMTP_PASSWORD}
+      KC_SPI_EMAIL_SENDER_SMTP_SSL: "false"
+      KC_SPI_EMAIL_SENDER_SMTP_STARTTLS: "true"
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import
+    ports:
+      - "8180:8180"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8180/health/ready || exit 1" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - app-network
+    depends_on:
+      database:
+        condition: service_healthy
 
   redis:
     image: redis:7.4-alpine

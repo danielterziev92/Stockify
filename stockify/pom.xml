@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
         <relativePath/>
     </parent>
     <groupId>com.stockify</groupId>
@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <spring-modulith.version>2.0.5</spring-modulith.version>
+        <spring-modulith.version>2.0.6</spring-modulith.version>
         <jmolecules.version>2025.0.2</jmolecules.version>
         <mapstruct.version>1.6.3</mapstruct.version>
     </properties>
@@ -25,6 +25,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-resource-server</artifactId>
         </dependency>
 
         <!-- Modulith -->
@@ -91,12 +97,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
         <!-- Kafka -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -139,12 +139,6 @@
             <artifactId>jmolecules-starter-ddd</artifactId>
         </dependency>
 
-        <!-- Observability & Management -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
         <!-- GraphQL -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -168,6 +162,12 @@
         <!--            <artifactId>java-uuid-generator</artifactId>-->
         <!--            <version>5.1.0</version>-->
         <!--        </dependency>-->
+
+        <!-- Observability & Management -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <!-- Tests -->
         <dependency>
