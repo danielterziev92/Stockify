@@ -51,23 +51,18 @@ public class User implements AggregateRoot<User, UserId> {
      * Creates a new user account with {@link UserStatus#PENDING_VERIFICATION} status
      * and publishes a {@link UserEvent.Created} event.
      *
-     * <p>The password is validated against all strength rules defined in
-     * {@link UserRule.Password} but is never persisted — it is forwarded to
-     * Keycloak during registration and then discarded.
+     * <p>Validation of {@code email} and {@code password} is the caller's responsibility
+     * and must be performed before invoking this method. The password is never persisted —
+     * it is forwarded to Keycloak during registration and then discarded.
      *
-     * @param email    the raw email address string; normalized and validated by {@link Email}
-     * @param password the plain-text password; validated by {@link Password} against
-     *                 length and strength rules before being passed to Keycloak
-     * @return a new {@code User} instance in {@link UserStatus#PENDING_VERIFICATION}
-     * with one pending {@link UserEvent.Created} event
+     * @param id       the user identifier assigned by Keycloak after successful registration
+     * @param email    the validated email address value object
+     * @param password the validated plain-text password value object
+     * @return a new {@code User} in {@link UserStatus#PENDING_VERIFICATION}
+     *         with one pending {@link UserEvent.Created} event
      */
-    public static @NonNull User create(@NonNull String email, @NonNull String password) {
-        User user = new User(
-                UserId.generate(),
-                new Email(email),
-                UserStatus.PENDING_VERIFICATION,
-                new Password(password)
-        );
+    public static @NonNull User create(@NonNull UserId id, @NonNull Email email, @NonNull Password password) {
+        User user = new User(id, email, UserStatus.PENDING_VERIFICATION, password);
 
         user.events.add(new UserEvent.Created(user.id, user.email, user.status));
         return user;
