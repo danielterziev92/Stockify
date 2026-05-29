@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.otp;
+package com.stockify.identity.otp.domain;
 
 import java.time.Duration;
 

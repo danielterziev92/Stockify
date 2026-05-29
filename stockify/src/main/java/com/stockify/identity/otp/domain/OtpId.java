@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.otp;
+package com.stockify.identity.otp.domain;
 
 import jakarta.annotation.Nonnull;
 import org.jmolecules.ddd.types.Identifier;

@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.otp;
+package com.stockify.identity.otp.domain;
 
 import com.stockify.shared.vo.UserId;
 import org.jmolecules.ddd.types.Repository;
