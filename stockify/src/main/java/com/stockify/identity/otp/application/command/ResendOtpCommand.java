@@ -1,4 +1,4 @@
-package com.stockify.identity.user.application.command;
+package com.stockify.identity.otp.application.command;
 
 import org.jmolecules.architecture.cqrs.Command;
 import org.jspecify.annotations.NonNull;

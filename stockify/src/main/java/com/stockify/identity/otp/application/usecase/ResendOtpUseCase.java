@@ -1,15 +1,16 @@
-package com.stockify.identity.user.application.usecase;
+package com.stockify.identity.otp.application.usecase;
 
-import com.stockify.identity.domain.otp.Otp;
-import com.stockify.identity.domain.otp.OtpRepository;
-import com.stockify.identity.domain.otp.OtpRule;
-import com.stockify.identity.domain.otp.OtpType;
-import com.stockify.identity.user.application.command.ResendOtpCommand;
+import com.stockify.identity.otp.domain.Otp;
+import com.stockify.identity.otp.domain.OtpRepository;
+import com.stockify.identity.otp.domain.OtpRule;
+import com.stockify.identity.otp.domain.OtpType;
+import com.stockify.identity.otp.application.command.ResendOtpCommand;
 import com.stockify.identity.user.application.port.IdentityProviderPort;
 import com.stockify.identity.user.domain.Email;
 import com.stockify.shared.exception.EntityNotFoundException;
 import com.stockify.shared.vo.UserId;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.cqrs.CommandHandler;
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,9 @@ public class ResendOtpUseCase {
      * @param command the resend input; must not be {@code null}
      * @throws EntityNotFoundException if no OTP record exists for the given email
      */
+    @CommandHandler
     @Transactional
-    public void execute(@NonNull ResendOtpCommand command) {
+    public void handle(@NonNull ResendOtpCommand command) {
         Email email = new Email(command.email());
         UserId userId = this.identityProvider.findUserIdByEmail(email.value());
 

@@ -1,8 +1,8 @@
 package com.stockify.identity.user.application.usecase;
 
-import com.stockify.identity.domain.otp.Otp;
-import com.stockify.identity.domain.otp.OtpRepository;
-import com.stockify.identity.domain.otp.OtpType;
+import com.stockify.identity.otp.domain.Otp;
+import com.stockify.identity.otp.domain.OtpRepository;
+import com.stockify.identity.otp.domain.OtpType;
 import com.stockify.identity.user.application.command.RegisterUserCommand;
 import com.stockify.identity.user.application.port.IdentityProviderPort;
 import com.stockify.identity.user.domain.Email;
@@ -10,6 +10,7 @@ import com.stockify.identity.user.domain.Password;
 import com.stockify.identity.user.domain.User;
 import com.stockify.shared.vo.UserId;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.architecture.cqrs.CommandHandler;
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class RegisterUserUseCase {
+public class RegisterUserUseCase  {
 
     private final IdentityProviderPort identityProvider;
     private final OtpRepository otpRepository;
@@ -50,8 +51,9 @@ public class RegisterUserUseCase {
      * @throws com.stockify.shared.exception.BusinessRuleException if the email
      *                                                             is already registered
      */
+    @CommandHandler
     @Transactional
-    public void execute(@NonNull RegisterUserCommand command) {
+    public void handle(@NonNull RegisterUserCommand command) {
         Email email = new Email(command.email());
         Password password = new Password(command.password());
 
