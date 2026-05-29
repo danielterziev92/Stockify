@@ -32,7 +32,15 @@ public interface OtpRepository extends Repository<Otp, OtpId> {
      */
     void save(@NonNull Otp otp);
 
-    void update(@NonNull Otp opt);
+    /**
+     * Updates an existing {@link Otp} record in persistence.
+     *
+     * <p>Called after {@link Otp#regenerate()} to persist the new code
+     * and expiry while keeping the same identity (id, userId, type).
+     *
+     * @param otp the OTP to update; must not be {@code null}
+     */
+    void update(@NonNull Otp otp);
 
     /**
      * Deletes an {@link Otp} by its identifier.

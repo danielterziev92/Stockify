@@ -10,9 +10,7 @@ import com.stockify.shared.exception.EntityNotFoundException;
 import com.stockify.shared.vo.UserId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jmolecules.ddd.annotation.Service;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Component;
 
 /**
  * Domain service providing OTP lookup operations shared across multiple use cases.
@@ -25,8 +23,8 @@ import org.springframework.stereotype.Component;
  * an {@link Otp} or publishes domain events.
  */
 @Slf4j
-@Component
-@Service
+@org.springframework.stereotype.Service
+@org.jmolecules.ddd.annotation.Service
 @RequiredArgsConstructor
 public class OtpLookupService {
 
