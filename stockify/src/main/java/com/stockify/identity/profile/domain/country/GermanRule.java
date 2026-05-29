@@ -1,6 +1,6 @@
-package com.stockify.identity.domain.profile.country;
+package com.stockify.identity.profile.domain.country;
 
-import com.stockify.identity.domain.profile.CountryRule;
+import com.stockify.identity.profile.domain.CountryRule;
 import org.jspecify.annotations.NonNull;
 
 import java.util.regex.Pattern;

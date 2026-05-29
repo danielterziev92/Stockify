@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.profile;
+package com.stockify.identity.profile.domain;
 
 import org.jmolecules.ddd.types.ValueObject;
 import org.jspecify.annotations.NonNull;
