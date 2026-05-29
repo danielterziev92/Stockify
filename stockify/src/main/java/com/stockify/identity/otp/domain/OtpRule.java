@@ -54,8 +54,13 @@ public final class OtpRule {
         public static final int UPPER_BOUND = 100_000_000;
 
         /**
-         * Message key used when no OTP record is found for the given identifier.
+         * Message key used when no OTP record is found for the given user.
          */
         public static final String NOT_FOUND_MSG = "otp.not-found";
+
+        /**
+         * Message key used when the submitted code does not match the stored code.
+         */
+        public static final String INVALID_MSG = "otp.invalid";
     }
 }
