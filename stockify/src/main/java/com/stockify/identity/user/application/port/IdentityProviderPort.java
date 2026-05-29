@@ -1,5 +1,6 @@
 package com.stockify.identity.user.application.port;
 
+import com.stockify.identity.user.application.query.UserView;
 import com.stockify.shared.vo.UserId;
 import org.jspecify.annotations.NonNull;
 
@@ -23,6 +24,8 @@ public interface IdentityProviderPort {
      *                                                              exists with the given email
      */
     @NonNull UserId findUserIdByEmail(@NonNull String email);
+
+    @NonNull UserView findUserById(@NonNull UserId userId);
 
     /**
      * Triggers a password reset flow for the given user in the identity provider.
