@@ -37,3 +37,10 @@ spring:
     enabled: true
     baseline-on-migrate: true
     validate-on-migrate: true
+
+keycloak:
+  admin:
+    base-url: ${KEYCLOAK_BASE_URL}
+    realm: ${KEYCLOAK_REALM}
+    client-id: ${KEYCLOAK_ADMIN_CLIENT_ID}
+    client-secret: ${KEYCLOAK_ADMIN_CLIENT_SECRET}
