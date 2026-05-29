@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.user;
+package com.stockify.identity.user.domain;
 
 import com.stockify.shared.vo.UserId;
 import org.jmolecules.event.types.DomainEvent;

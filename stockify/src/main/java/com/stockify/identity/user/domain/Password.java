@@ -1,4 +1,4 @@
-package com.stockify.identity.domain.user;
+package com.stockify.identity.user.domain;
 
 import com.stockify.shared.exception.InvalidValueException;
 import org.jmolecules.ddd.types.ValueObject;
