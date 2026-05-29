@@ -32,6 +32,8 @@ public interface OtpRepository extends Repository<Otp, OtpId> {
      */
     void save(@NonNull Otp otp);
 
+    void update(@NonNull Otp opt);
+
     /**
      * Deletes an {@link Otp} by its identifier.
      *

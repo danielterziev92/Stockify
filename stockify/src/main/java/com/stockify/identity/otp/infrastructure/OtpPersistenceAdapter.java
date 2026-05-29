@@ -26,11 +26,12 @@ class OtpPersistenceAdapter implements OtpRepository {
 
     private final OtpJdbcRepository store;
     private final JdbcAggregateTemplate template;
+    private final OtpMapper mapper;
 
     @Override
     public Optional<Otp> findByUserIdAndType(@NonNull UserId userId, @NonNull OtpType type) {
         return this.store.findByUserIdAndType(userId.value(), type.name())
-                .map(this::toDomain);
+                .map(this.mapper::toDomain);
     }
 
     /**
@@ -42,36 +43,18 @@ class OtpPersistenceAdapter implements OtpRepository {
      */
     @Override
     public void save(@NonNull Otp otp) {
-        OtpRecord record = toRecord(otp);
-        if (this.store.existsById(record.id())) {
-            this.template.update(record);
-        } else {
-            this.template.insert(record);
-        }
+        OtpRecord record = this.mapper.toRecord(otp);
+        this.template.insert(record);
+    }
+
+    @Override
+    public void update(@NonNull Otp opt) {
+        OtpRecord record = this.mapper.toRecord(opt);
+        this.template.update(record);
     }
 
     @Override
     public void deleteById(@NonNull OtpId id) {
         this.store.deleteById(id.value());
-    }
-
-    private OtpRecord toRecord(Otp otp) {
-        return new OtpRecord(
-                otp.getId().value(),
-                otp.getUserId().value(),
-                otp.getType().name(),
-                otp.getCode(),
-                otp.getExpiresAt()
-        );
-    }
-
-    private Otp toDomain(OtpRecord record) {
-        return Otp.reconstitute(
-                OtpId.of(record.id()),
-                UserId.of(record.userId()),
-                OtpType.valueOf(record.type()),
-                record.code(),
-                record.expiresAt()
-        );
     }
 }

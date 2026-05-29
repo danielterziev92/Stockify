@@ -1,13 +1,14 @@
 package com.stockify.identity.otp.application.usecase;
 
 
-import com.stockify.identity.otp.domain.*;
+import com.stockify.identity.otp.application.OtpLookupService;
 import com.stockify.identity.otp.application.command.VerifyOtpCommand;
+import com.stockify.identity.otp.domain.Otp;
+import com.stockify.identity.otp.domain.OtpEvent;
+import com.stockify.identity.otp.domain.OtpRepository;
 import com.stockify.identity.user.application.port.IdentityProviderPort;
-import com.stockify.identity.user.domain.Email;
 import com.stockify.shared.exception.BusinessRuleException;
 import com.stockify.shared.exception.EntityNotFoundException;
-import com.stockify.shared.vo.UserId;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.architecture.cqrs.CommandHandler;
 import org.jspecify.annotations.NonNull;
@@ -31,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class VerifyOtpUseCase {
 
     private final OtpRepository otpRepository;
+    private final OtpLookupService service;
     private final IdentityProviderPort identityProvider;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -55,12 +57,7 @@ public class VerifyOtpUseCase {
     @CommandHandler
     @Transactional
     public void handle(@NonNull VerifyOtpCommand command) {
-        Email email = new Email(command.email());
-        UserId userId = this.identityProvider.findUserIdByEmail(email.value());
-
-        Otp otp = this.otpRepository.findByUserIdAndType(userId, OtpType.EMAIL_VERIFICATION)
-                .orElseThrow(() -> new EntityNotFoundException(OtpRule.Code.NOT_FOUND_MSG, email.value()));
-
+        Otp otp = this.service.getEmailVerificationOtpByEmail(command.email());
         otp.verify(command.code());
 
         this.otpRepository.deleteById(otp.getId());

@@ -1,14 +1,10 @@
 package com.stockify.identity.otp.application.usecase;
 
+import com.stockify.identity.otp.application.OtpLookupService;
+import com.stockify.identity.otp.application.command.ResendOtpCommand;
 import com.stockify.identity.otp.domain.Otp;
 import com.stockify.identity.otp.domain.OtpRepository;
-import com.stockify.identity.otp.domain.OtpRule;
-import com.stockify.identity.otp.domain.OtpType;
-import com.stockify.identity.otp.application.command.ResendOtpCommand;
-import com.stockify.identity.user.application.port.IdentityProviderPort;
-import com.stockify.identity.user.domain.Email;
 import com.stockify.shared.exception.EntityNotFoundException;
-import com.stockify.shared.vo.UserId;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.architecture.cqrs.CommandHandler;
 import org.jspecify.annotations.NonNull;
@@ -28,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResendOtpUseCase {
 
     private final OtpRepository otpRepository;
-    private final IdentityProviderPort identityProvider;
+    private final OtpLookupService service;
     private final ApplicationEventPublisher eventPublisher;
 
     /**
@@ -48,15 +44,11 @@ public class ResendOtpUseCase {
     @CommandHandler
     @Transactional
     public void handle(@NonNull ResendOtpCommand command) {
-        Email email = new Email(command.email());
-        UserId userId = this.identityProvider.findUserIdByEmail(email.value());
+        Otp otp = this.service.getEmailVerificationOtpByEmail(command.email());
 
-        this.otpRepository.findByUserIdAndType(userId, OtpType.EMAIL_VERIFICATION)
-                .orElseThrow(() -> new EntityNotFoundException(OtpRule.Code.NOT_FOUND_MSG, email.value()));
+        otp.regenerate();
+        this.otpRepository.update(otp);
 
-        Otp newOtp = Otp.create(userId, OtpType.EMAIL_VERIFICATION);
-        this.otpRepository.update(newOtp);
-
-        newOtp.pullEvents().forEach(this.eventPublisher::publishEvent);
+        otp.pullEvents().forEach(this.eventPublisher::publishEvent);
     }
 }
