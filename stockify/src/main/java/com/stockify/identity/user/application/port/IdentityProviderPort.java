@@ -25,6 +25,26 @@ public interface IdentityProviderPort {
      */
     @NonNull UserId findUserIdByEmail(@NonNull String email);
 
+    /**
+     * Fetches a user's data from the identity provider by their identifier
+     * and returns it as a {@link UserView}.
+     *
+     * <p>The {@link com.stockify.identity.user.domain.UserStatus} is derived from
+     * Keycloak's {@code emailVerified} flag:
+     * <ul>
+     *   <li>{@code true}  → {@link com.stockify.identity.user.domain.UserStatus#ACTIVE}</li>
+     *   <li>{@code false} → {@link com.stockify.identity.user.domain.UserStatus#PENDING_VERIFICATION}</li>
+     * </ul>
+     *
+     * <p>This method is intended for admin use cases and direct queries where
+     * the information cannot be read from the JWT claims (e.g., the user is not
+     * the caller). For authenticated endpoints, prefer reading from the JWT directly.
+     *
+     * @param userId the identifier of the user to fetch; must not be {@code null}
+     * @return a {@link UserView} populated from the identity provider's data
+     * @throws com.stockify.shared.exception.EntityNotFoundException if no user
+     *         exists with the given identifier
+     */
     @NonNull UserView findUserById(@NonNull UserId userId);
 
     /**

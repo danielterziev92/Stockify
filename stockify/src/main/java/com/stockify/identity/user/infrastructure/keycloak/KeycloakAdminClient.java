@@ -1,8 +1,9 @@
 package com.stockify.identity.user.infrastructure.keycloak;
 
-import com.stockify.identity.infrastructure.keycloak.KeycloakTokenProvider;
-import com.stockify.identity.infrastructure.keycloak.dto.KeycloakCreateUserRequest;
 import com.stockify.identity.user.application.port.IdentityProviderPort;
+import com.stockify.identity.user.application.query.UserView;
+import com.stockify.identity.user.domain.UserStatus;
+import com.stockify.identity.user.infrastructure.keycloak.dto.KeycloakCreateUserRequest;
 import com.stockify.identity.user.infrastructure.keycloak.exception.KeycloakException;
 import com.stockify.shared.exception.EntityNotFoundException;
 import com.stockify.shared.vo.UserId;
@@ -65,6 +66,35 @@ public class KeycloakAdminClient implements IdentityProviderPort {
         }
 
         return UserId.of(users.getFirst().id());
+    }
+
+    @Override
+    public @NonNull UserView findUserById(@NonNull UserId userId) {
+        log.debug("Fetching Keycloak user by id '{}'", userId.value());
+
+        KeycloakUserRepresentation user = this.restClient.get()
+                .uri("%s/users/%s".formatted(this.properties.realmAdminUrl(), userId.value()))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer %s".formatted(this.tokenProvider.getAccessToken()))
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (req, res) -> {
+                    throw new EntityNotFoundException("user.not-found", userId.value());
+                })
+                .onStatus(status -> !status.is2xxSuccessful(), (req, res) -> {
+                    throw new KeycloakException(
+                            res.getStatusCode(),
+                            "Failed to fetch Keycloak user: HTTP " + res.getStatusCode()
+                    );
+                })
+                .body(KeycloakUserRepresentation.class);
+
+        if (user == null)
+            throw new EntityNotFoundException("user.not-found", userId.value());
+
+        UserStatus status = user.emailVerified()
+                ? UserStatus.ACTIVE
+                : UserStatus.INACTIVE;
+
+        return new UserView(userId, user.email(), status);
     }
 
     /**
